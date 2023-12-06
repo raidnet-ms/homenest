@@ -1,0 +1,55 @@
+substitutions:
+  name: castania2switch
+  friendly_name: 2switch
+  log_level: DEBUG #debug
+  project_name: raidnet.sw
+  project_version: 1.0.0
+  board: nodemcuv2
+
+packages:
+# Local Common Packages
+  board: !include common/board/common-8266.yaml
+
+
+status_led:
+  pin: 
+    number: D4 #GPIO2
+    inverted: true
+
+switch:
+  - platform: gpio
+    pin:
+      number: D6
+      inverted: true
+    name: "Switch 1"
+
+  - platform: gpio
+    pin:
+      number: D7
+      inverted: true
+    name: "Switch 2"
+
+binary_sensor:
+#  - platform: gpio
+#    pin: D4 # GPIO2
+#    name: "Pulsante1"
+#    inverted: true
+  - platform: gpio
+    pin: D8 # GPIO15
+    name: "Pulsante2"
+  - platform: gpio
+    pin: D0 # GPIO16
+    name: "Pulsante3"
+
+output:
+  - platform: gpio
+    pin:
+      number: D4 # GPIO2
+      inverted: true
+    id: output1
+
+button:
+  - platform: output
+    name: "Generic Output"
+    output: output1
+    duration: 500ms

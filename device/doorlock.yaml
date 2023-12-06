@@ -1,0 +1,115 @@
+# Sensore stato apertura porta
+binary_sensor:
+  - platform: gpio
+    pin: 
+      number: $door_sensor_pin
+      mode: INPUT_PULLUP
+#      inverted: True
+    name: "Sensore porta"
+    device_class: door
+    filters:          #piccolo delay per evitare falsi allarmi
+      - delayed_on_off: 50ms  
+#      - delayed_on: 10ms
+#      - delayed_off: 10ms
+    id: doorsensor
+  - platform: template
+    name: "Stato serratura"
+    device_class: lock
+    id: lockdoor
+
+#    on_state:
+#      then:
+#        - display.page.show: doorlock
+#        - delay: 2s
+#        - display.page.show: home
+
+#Avvio mandate    
+switch:
+  - platform: gpio
+    name: "Avvio mandate"
+    icon: "mdi:lock-outline"
+    id: door_lock
+#    assumed_state: true
+    pin: 
+      number: $door_lock_pin
+#      inverted: yes
+    restore_mode: ALWAYS_OFF   #se manca la corrente la porta non deve aprirsi
+    on_turn_on:
+      if:
+        condition:
+#          lambda: 'return id(doorsensor).state;'
+          binary_sensor.is_on: doorsensor
+        then:
+        - logger.log: "Chiudere prima la porta!"
+        - display.page.show: first_close_door
+        - delay: 200ms
+        - switch.turn_off: door_lock
+#        wait_until:
+#          binary_sensor.is_off: doorsensor
+        else:            
+        - switch.turn_on: door_lock
+        - logger.log: "Avvio mandate serratura..."
+# mostra stato su display
+        - delay: 1s #delay per mostrare prima l'icona nfc
+        - display.page.show: doorlock
+        - delay: 2s
+        - lambda: id(door_lock).publish_state(true);
+        - logger.log: "Serratura chiusa."
+        - binary_sensor.template.publish:
+            id: lockdoor
+            state: OFF
+# mostra home su display
+        - display.page.show: home
+    on_turn_off:
+      if:
+        condition:
+          binary_sensor.is_off: doorsensor
+        then:
+        - display.page.show: doorlock
+        - delay: 3s
+        - logger.log: "Serratura aperta."
+
+        - binary_sensor.template.publish:
+            id: lockdoor
+            state: ON
+        - component.update: display01
+        # mostra home su display
+        - display.page.show: home   #se abilito questo va in conflitto con il boot e interrompe il display wait connection
+
+
+#        - wait_until:
+#            switch.is_on: door_lock 
+#        - display.page.show: home
+
+
+
+#    on_turn_on:
+#     - logger.log: "Verifico chiusura porta"
+#     - wait_until:
+#         binary_sensor.is_on: doorsensor
+#     - logger.log: "La porta è chiusa bene"
+#     - delay: 1s
+#     - switch.turn_on: door_lock
+#     - logger.log: "Switch Turned On!"
+#     - delay: 5s
+#     - switch.turn_off: door_lock
+#     - logger.log: "Switch Turned Off!"
+
+#    on_turn_off:
+#        then:
+#        - logger.log: "Avvio mandate serratura..."
+#        - switch.turn_off: door_lock
+#        - delay: 5s
+#        - lambda: id(door_lock).publish_state(true);
+#        - logger.log: "Serratura aperta."
+#        - switch.turn_off: door_lock
+    
+    
+    
+#     - logger.log: "Verifico chiusura porta"
+#     - wait_until:
+#         binary_sensor.is_on: doorsensor
+#     - logger.log: "La porta è chiusa bene"
+#     - delay: 2s
+#     - switch.turn_off: door_lock
+#     - logger.log: "Switch Turned Off!"

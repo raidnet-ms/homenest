@@ -1,0 +1,37 @@
+substitutions:
+  name: castania3switch
+  friendly_name: 3switch
+  log_level: DEBUG #debug
+  project_name: raidnet.sw
+  project_version: 1.0.0
+  board: nodemcuv2
+
+packages:
+# Local Common Packages
+  board: !include common/board/common-8266.yaml
+
+status_led:
+  pin: 
+    number: D4 #GPIO2
+    inverted: true
+
+
+switch:
+  - platform: gpio
+    pin:
+      number: D5
+      inverted: true
+    name: "Switch 1"
+
+  - platform: gpio
+    pin:
+      number: D6
+      inverted: true
+    name: "Switch 2"
+
+  - platform: gpio
+    pin:
+      number: D7
+      inverted: true
+    name: "Switch 3"
+    

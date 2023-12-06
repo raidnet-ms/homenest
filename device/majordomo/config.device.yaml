@@ -1,0 +1,9 @@
+text:
+  - platform: template
+    name: "Casa"
+    optimistic: true
+    initial_value: None
+    min_length: 3
+    max_length: 10
+    mode: text
+    restore_value: 'true'

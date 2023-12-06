@@ -1,0 +1,20 @@
+output:
+  - platform: gpio
+    pin: $door_lock
+    id: latch
+
+button:
+  - platform: output
+    name: "Portone"
+    output: latch
+    duration: 500ms
+    id: citofono
+
+#lock non è ancora implementato per aperture elettroniche indipendenti, ma supporta solo se integrate a meccanismi di apertura e chiusura
+#lock:
+#  - platform: template
+#    name: "Avvio mandate"
+#    optimistic: true
+#    id: serratura
+#    open_action:
+#      - button.press: latch

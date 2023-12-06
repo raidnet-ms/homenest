@@ -1,0 +1,16 @@
+packages:
+  board: !include ../../common/board/d1_mini.yaml
+
+# Common
+  binary_light: !include ../../common/binary_light.yaml
+  #aggiungere in devicebase e testare se all'avvio abilita gli switch early_pin_init: false 
+
+# Device
+  device_base:  !include config.device_base.yaml
+  boot: !include boot.device.yaml
+  buttons: !include buttons.device.yaml
+  config: !include config.device.yaml
+  solenoid_type: !include switch_bistable_gpio.yaml
+
+#device: !include_dir_list sprinkler #da testare se carica tutti i file nella cartella
+####################################################

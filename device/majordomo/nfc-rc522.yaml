@@ -1,0 +1,45 @@
+
+#rc522_i2c:
+#  update_interval: 1s   #default 1s
+#  id: rfid_reader1
+#  address: 0x28   #default 0x28
+
+
+spi:
+  clk_pin: D5 #gpio18
+  miso_pin: D6 #gpio19
+  mosi_pin: D7  #GPIO23
+
+rc522_spi: # or rc522_i2c
+  cs_pin: D8 #gpio5
+##  update_interval: 1s
+#  id: rfid_frontdoor
+
+  on_tag:
+    then:
+    - logger.log: "Tag letto."
+    - text_sensor.template.publish:
+        id: rfid_tag
+        state: "Tag letto"
+    - display.page.show: page_nfc
+    - homeassistant.tag_scanned: !lambda 'return x;'
+#    - if:
+#        condition:
+#          switch.is_on: buzzer_enabled
+#        then:
+#        - rtttl.play: "success:d=24,o=5,b=100:c,g,b"
+    - delay: 2s
+    - display.page.show: home
+    - text_sensor.template.publish:
+        id: rfid_tag
+        state: !lambda 'return x;'
+
+text_sensor:
+  - platform: template
+    name: "RFID Tag"
+    id: rfid_tag
+
+binary_sensor:
+  - platform: rc522
+    uid: 76-B4-1E-39
+    name: "Chiave RFID Marco"

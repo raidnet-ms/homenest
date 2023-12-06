@@ -1,0 +1,27 @@
+# Sensore stato apertura porta
+binary_sensor:
+  - platform: gpio
+    pin: 
+      number: $door_sensor_pin
+      mode: INPUT_PULLUP
+#      inverted: True
+    name: "Sensore porta"
+    device_class: door
+    filters:          #piccolo delay per evitare falsi allarmi
+      - delayed_on_off: 50ms  
+    id: doorsensor
+    on_state:
+      homeassistant.event:
+        event: esphome.door_state
+        data:
+          title: $friendly_name door was opened
+#  - platform: template
+#    name: "Stato serratura"
+#    device_class: lock
+#    id: lockdoor
+
+#    on_state:
+#      then:
+#        - display.page.show: doorlock
+#        - delay: 2s
+#        - display.page.show: home

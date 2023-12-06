@@ -1,0 +1,83 @@
+# Enable logging
+logger:
+  baud_rate: 0 # Needed to free up UART pins
+
+uart:
+  baud_rate: 115200 # speed to STC15L101EW
+  tx_pin: GPIO1
+  rx_pin: GPIO3
+
+
+# Switch for bistable solenoid valve
+switch:
+  - platform: template
+    id: "zone_a"
+    turn_on_action:
+      - uart.write: [0xA0, 0x01, 0x01, 0xA2] # turn on Relay1 impulse output
+      - text_sensor.template.publish:
+          id: irrigation_state
+          state: "Irrigazione prato"
+    turn_off_action:
+      - uart.write: [0xA0, 0x01, 0x00, 0xA1]
+      - text_sensor.template.publish:
+          id: irrigation_state
+          state: "Irrigazione prato terminata"
+  
+  - platform: template
+    id: "zone_b"
+    turn_on_action:
+      - uart.write: [0xA0, 0x02, 0x01, 0xA3] # turn on Relay2
+      - text_sensor.template.publish:
+          id: irrigation_state
+          state: "Irrigazione siepe"
+    turn_off_action:
+      - uart.write: [0xA0, 0x02, 0x00, 0xA2]
+      - text_sensor.template.publish:
+          id: irrigation_state
+          state: "Irrigazione siepe terminata"
+  
+  - platform: template
+    id: "zone_c"
+    turn_on_action:
+      - uart.write: [0xA0, 0x03, 0x01, 0xA4] # turn on Relay3
+      - text_sensor.template.publish:
+          id: irrigation_state
+          state: "Irrigazione orto"
+    turn_off_action:
+      - uart.write: [0xA0, 0x03, 0x00, 0xA3]
+      - text_sensor.template.publish:
+          id: irrigation_state
+          state: "Irrigazione orto terminata"
+
+  - platform: template
+    id: "zone_d"
+    turn_on_action:
+      - uart.write: [0xA0, 0x04, 0x01, 0xA5] # turn on Relay4
+      - text_sensor.template.publish:
+          id: irrigation_state
+          state: "Irrigazione orto"
+    turn_off_action:
+      - uart.write: [0xA0, 0x04, 0x00, 0xA4]
+      - text_sensor.template.publish:
+          id: irrigation_state
+          state: "Irrigazione orto terminata"
+
+
+# in alternativa si può usare un relè per le luci
+#output:
+#  - platform: template
+#    type: binary
+#    id: out_1
+#    write_action:
+#      if:
+#        condition:
+#          light.is_on: garden_light
+#        then:
+#          - switch.turn_on: relay4
+#        else:
+#          - switch.turn_off: relay4
+#light:
+#  - platform: binary
+#    name: "Luce Giardino"
+#    id: garden_light
+#    output: "out_1"

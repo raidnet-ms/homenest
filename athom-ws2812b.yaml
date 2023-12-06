@@ -1,0 +1,115 @@
+substitutions:
+  name: "athom-ws2812b"
+  friendly_name: "Strip"
+  project_name: "athom.ws2812b"
+  project_version: "1.1"
+
+  board: esp8285
+  log_level: DEBUG
+# GPIO
+# Device substitutions
+  button_toggle: "true"
+  led_restore_mode: RESTORE_DEFAULT_OFF #ALWAYS_OFF
+  number_of_leds: '29'
+  led_rgb_order: GRB
+  led_chipset: WS2812
+  
+#  restore_from_flash: true #vedere dove conviene mettere il valore, se qui oppure in common-8266
+
+esp8266:
+#  framework:
+#    version: 2.7.4
+
+logger:
+  baud_rate: 0
+
+
+packages:
+  device_base: !include common/board/common-8266.yaml
+
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: 0
+      mode: INPUT_PULLUP
+      inverted: true
+    name: "Power Button"
+    disabled_by_default: true
+    on_multi_click:
+      - timing:
+          - ON for at most 1s
+          - OFF for at least 0.2s
+        then:
+          - light.toggle: leds
+      - timing:
+          - ON for at least 4s
+        then:
+          - button.press: Reset
+
+
+button:
+  - platform: factory_reset
+    name: Restart with Factory Default Settings
+    id: Reset
+
+light:
+#  - platform: fastled_clockless
+#    pin: GPIO1
+#    id: leds
+#    name: ${friendly_name}
+#    chipset: ${led_chipset}
+#    num_leds: ${number_of_leds}
+#    rgb_order: ${led_rgb_order}
+#    restore_mode: ${led_restore_mode}
+
+  - platform: neopixelbus
+    type: ${led_rgb_order}
+    variant: ${led_chipset}
+    pin: GPIO1
+    num_leds: ${number_of_leds}
+    name: "led"
+    id: leds
+
+    effects:
+      - addressable_rainbow:
+          speed: 10
+          width: 50
+      - addressable_scan:
+#      - addressable_color_wipe:
+#      - addressable_twinkle:
+#          name: Twinkle Effect With Custom Values
+#          twinkle_probability: 5%
+#          progress_interval: 4ms
+      - addressable_random_twinkle:
+#      - addressable_fireworks:
+      - addressable_flicker:
+      - flicker:
+#          name: Flicker Effect With Custom Values
+#          alpha: 95%
+#          intensity: 1.5%
+#      - strobe:
+#          name: Strobe Effect With Custom Values
+#          colors:
+#            - state: true
+#              brightness: 100%
+#              red: 100%
+#              green: 90%
+#              blue: 0%
+#              duration: 500ms
+#            - state: false
+#              duration: 250ms
+#            - state: true
+#              brightness: 100%
+#              red: 0%
+#              green: 100%
+#              blue: 0%
+#              duration: 500ms
+#      - pulse:
+#          name: "Fast Pulse"
+#          transition_length: 0.5s
+#          update_interval: 0.5s
+#      - pulse:
+#          name: "Slow Pulse"
+#          transition_length: 1s      # defaults to 1s
+#          update_interval: 2s

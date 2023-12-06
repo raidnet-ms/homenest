@@ -1,0 +1,264 @@
+font:
+  - file: "gfonts://Roboto"
+    id: roboto
+    size: 12
+  - file: 'common/fonts/arial.ttf'
+    id: font3
+    size: 12 
+  - file: 'common/fonts/materialdesignicons-webfont.ttf'
+    id: icon_font
+    size: 32
+    glyphs: [
+      "\U000F078F", # mdi-alarm-light
+      "\U000F0BEA", # mdi-alarm-light-outline
+      "\U000F0237", # mdi-fingerprint
+      "\U000F0EB1", # mdi-fingerprint-off
+      "\U000F07AE", # mdi-cctv
+      "\U000F02DC", # mdi-home
+      "\U000F0CCB", # mdi-home-outline
+      "\U000F0498", # mdi-shield                    armed_away
+      "\U000F0499", # mdi-shield-outline
+      "\U000F088F", # mdi-shield-account            armed_home
+      "\U000F0A12", # mdi-shield-account-outline
+      "\U000F0ECC", # mdi-shield-alert
+      "\U000F0ECD", # mdi-shield-alert-outline      arming
+      "\U000F0565", # mdi-shield-check              pending
+      "\U000F0CC8", # mdi-shield-check-outline
+      "\U000F0780", # mdi-shield-half-full          armed_night
+      "\U000F0BC4", # mdi-shield-key                
+      "\U000F0BC5", # mdi-shield-key-outline
+      "\U000F099E", # mdi-shield-off                disarmed
+      "\U000F099C", # mdi-shield-off-outline        disarming
+      "\U000F113B", # mdi-shield-star               armed_vacation
+      "\U000F113C", # mdi-shield-star-outline
+      "\U000F099D", # mdi-shield-lock
+      "\U000F0CCC", # mdi-shield-lock-outline
+      "\U000F1167", # mdi-police-badge
+      "\U000F1168", # mdi-police-badge-outline
+      "\U000F033F", # mdi-lock-open                 unlocked
+      "\U000F0340", # mdi-lock-open-outline         unlocking
+      "\U000F033E", # mdi-lock
+      "\U000F0341", # mdi-lock-outline
+      "\U000F139C", # mdi-lock-check                triggered
+      "\U000F08EE", # mdi-lock-alert-outline        jammed
+      "\U000F081C", # mdi-door-open                   door open
+      "\U000F081B", # mdi-door-closed                   door closed
+      "\U000F0FC4", # mdi-location-enter
+      "\U000F0FC5", # mdi-location-exit             armed_custom_bypass
+      "\U000F009E", # mdi-bell-ring                 usare per campanello
+      "\U000F009F", # mdi-bell-ring-outline
+      "\U000F05A9", # mdi-wifi                      wifi
+      "\U000F05AA", # mdi-wifi-off                  wifi-off
+      "\U000F051F", # mdi-timer-sand                clessidra provare a usare mdi-spin per farla rotare
+      "\U000F0398", # mdi-nfc-variant               nfc chip
+      "\U000F0E54", # mdi-nfc-variant-off           nfc chip error
+      "\U000F0397", # mdi-nfc-tap                   nfc tap
+      "\U000F0208", # mdi-cog-clockwise  oppure usare mdi-cog-sync                ota update
+      "\U000F0CBD", # mdi-progress-wrench           ota update begin
+      "\U000F0997", # mdi-progress-download         ota update progress
+      "\U000F0995", # mdi-progress-check            ota update end
+      "\U000F0CBC", # mdi-progress-alert            ota update alert
+      ]
+      
+  - file: 'common/fonts/materialdesignicons-webfont.ttf'
+    id: icon_font_small
+    size: 10
+    glyphs: [
+      "\U000F033F", # mdi-lock-open            pending
+      "\U000F0340", # mdi-lock-open-outline    disarming
+      "\U000F033E", # mdi-lock
+      "\U000F0341", # mdi-lock-outline
+      "\U000F139C", # mdi-lock-check           triggered
+      "\U000F05A9", # mdi-wifi                      wifi connected
+      "\U000F05AA", # mdi-wifi-off                  wifi disconnected
+      ]
+
+# testare se con questo posso sostituire l'elenco glyphs e se ne vale la pena
+#image:
+#  - file: mdi:alert-outline
+#    id: alert
+#    resize: 80x80
+
+text_sensor:
+  - platform: homeassistant
+    entity_id: alarm_control_panel.antifurto
+    name: "Alarm State"
+    id: alarm_state
+    internal: true
+    on_value:
+      then:
+        - display.page.show: alarme
+        - delay: 2s
+        - display.page.show: home
+
+display:
+  - platform: ssd1306_i2c
+    model: "SSD1306 128x64"
+#    reset_pin: D0
+#    address: 0x3C   # Use only if i2c scan is set to false
+    id: display01
+    
+    pages:
+      - id: boot  # loading...
+        lambda: |-
+          it.print(64, 0, id(font3), TextAlign::TOP_CENTER, "Caricamento");
+          it.print(64, 32, id(icon_font), TextAlign::CENTER, "\U000F051F");
+      
+#      - id: ota_begin  #ota-begin
+#        lambda: |-
+#          it.print(64, 0, id(font3), TextAlign::TOP_CENTER, "Aggiornamento");
+#          it.print(64, 32, id(icon_font), TextAlign::CENTER, "\U000F0CBD");
+#      - id: otaprogress
+#        lambda: |-
+#          it.print(64, 0, id(font3), TextAlign::TOP_CENTER, "Aggiornamento");
+#          it.print(64, 32, id(icon_font), TextAlign::CENTER, "\U000F0997");
+#      - id: ota_end
+#        lambda: |-
+#          it.print(64, 0, id(font3), TextAlign::TOP_CENTER, "Aggiornamento");
+#          it.print(64, 32, id(icon_font), TextAlign::CENTER, "\U000F0995");
+#      - id: ota_error
+#        lambda: |-
+#          it.print(64, 0, id(font3), TextAlign::TOP_CENTER, "Aggiornamento");
+#          it.print(64, 32, id(icon_font), TextAlign::CENTER, "\U000F0CBC");
+
+      - id: connection # wifi connection status
+        lambda: |-
+          it.printf(64, 0, id(font3), TextAlign::TOP_CENTER, "WiFi %s", id(connection_status).state ? "Connected" : "Disconnected");
+          it.print(64, 32, id(icon_font), TextAlign::CENTER, id(connection_status).state ? "\U000F05A9" : "\U000F05AA");
+
+      - id: home  # home page
+        lambda: |-
+          it.print(64, 0, id(font3), TextAlign::TOP_CENTER, "$house_name");
+          it.print(64, 32, id(icon_font), TextAlign::CENTER, "\U000F02DC");
+
+          it.print(105, 2, id(icon_font_small), TextAlign::LEFT, id(connection_status).state ? "\U000F05A9" : "\U000F05AA");
+            if (id(connection_status).state) {
+          it.strftime(64, 60, id(font3), TextAlign::CENTER, "%d-%m-%Y %H:%M", id(esptime).now());
+          }
+            else {
+          it.print(64, 60, id(font3), TextAlign::CENTER, "date-time not in sync");
+          }
+          it.print(115, 2, id(icon_font_small), TextAlign::LEFT, id(lock_state).state ? "\U000F0340" : "\U000F033E");
+#          it.printf(115, 0, id(icon_font_small), TextAlign::LEFT, id(alarm_state).state ? "\U000F033E" : "\U000F0340");
+
+      - id: alarme  # alarm_state, the ID is not a typo. Don't use alarm as ID or esp32 won't compile
+        lambda: |-
+          it.printf(64, 0, id(font3), TextAlign::TOP_CENTER, "Antifurto: %s", id(alarm_state).state.c_str());
+          if (id(alarm_state).state == "disarmed") {
+            it.print(64, 32, id(icon_font), TextAlign::CENTER, "\U000F099E");
+          }    else
+          if (id(alarm_state).state == "armed_home") {
+            it.print(64, 32, id(icon_font), TextAlign::CENTER, "\U000F088F");
+          }   else if (id(alarm_state).state == "armed_away") {
+            it.print(64, 32, id(icon_font), TextAlign::CENTER, "\U000F0498");
+          }   else if (id(alarm_state).state == "armed_night") {
+            it.print(64, 32, id(icon_font), TextAlign::CENTER, "\U000F0780");
+          }   else if (id(alarm_state).state == "armed_vacation") {
+            it.print(64, 32, id(icon_font), TextAlign::CENTER, "\U000F113B");
+          }   else if (id(alarm_state).state == "armed_custom_bypass") {
+            it.print(64, 32, id(icon_font), TextAlign::CENTER, "\U000F0499");
+          }   else if (id(alarm_state).state == "pending") {
+          it.print(64, 32, id(icon_font), TextAlign::CENTER, "\U000F0ECD");
+          }   else if (id(alarm_state).state == "arming") {
+            it.print(64, 32, id(icon_font), TextAlign::CENTER, "\U000F0ECD");
+          }   else if (id(alarm_state).state == "disarming") {
+            it.print(64, 32, id(icon_font), TextAlign::CENTER, "\U000F099C");
+          }   else if (id(alarm_state).state == "triggered") {
+            it.print(64, 32, id(icon_font), TextAlign::CENTER, "\U000F0ECC");
+          }
+
+      - id: doorlock   # door lock
+#      it.print(64, 32, id(icon_font), TextAlign::CENTER, id(lock_state).state ? "\U000F0340" : "\U000F033E");
+#      it.printf(64, 0, id(font3), TextAlign::TOP_CENTER, "Serratura %s", lock::lock_state_to_string(id(serratura).state));
+        lambda: |-
+          if (id(lock_state).state == LOCK_STATE_LOCKED) {
+            it.print(64, 32, id(icon_font), TextAlign::CENTER, "\U000F139C");
+          }    else
+          if (id(lock_state).state == LOCK_STATE_UNLOCKED) {
+            it.print(64, 32, id(icon_font), TextAlign::CENTER, "\U000F033F");
+          }   else if (id(lock_state).state == LOCK_STATE_JAMMED) {
+            it.print(64, 32, id(icon_font), TextAlign::CENTER, "\U000F08EE");
+          }   else if (id(lock_state).state == LOCK_STATE_LOCKING) {
+            it.print(64, 32, id(icon_font), TextAlign::CENTER, "\U000F0341");
+          }   else if (id(lock_state).state == LOCK_STATE_UNLOCKING) {
+            it.print(64, 32, id(icon_font), TextAlign::CENTER, "\U000F0340");
+          }
+#          it.printf(64, 0, id(font3), TextAlign::TOP_CENTER, "Serratura %d", lock::LockState(id(lock_state).state));
+#          std::string icon;
+#          switch(id(serratura).state) {
+#              case LockState::LOCK_STATE_LOCKED:
+#                icon = "\U000F033E";
+#                break;
+#              case LockState::LOCK_STATE_UNLOCKED:
+#                icon = "\U000F0340";
+#                break;
+#              case LockState::LOCK_STATE_LOCKING:
+#                icon = "\U000F0341";
+#                break;
+#              case LockState::LOCK_STATE_UNLOCKING:
+#                icon = "\U000F033F";
+#                break;
+#              case LockState::LOCK_STATE_JAMMED:
+#                icon = "\U000F08EE";
+#                break;
+#              }
+#          it.print(64, 32, id(icon_font), TextAlign::CENTER, (icon);
+
+#            switch(id(serratura).LockState)) {
+#              case 0: "\U000F033E" break;
+#              case 1: "\U000F0340" break;
+#            }
+
+#          it.printf(64, 0, id(font3), TextAlign::TOP_CENTER, "Serratura %s", id(serratura).state ? "chiusa" : "aperta");
+
+
+# Display alert when door is open
+      - id: first_close_door   #door open
+        lambda: |-
+          it.print(64, 32, id(icon_font), TextAlign::CENTER, id(doorsensor).state ? "\U000F081C" : "\U000F081B");
+          it.print(64, 0, id(font3), TextAlign::TOP_CENTER, "Chiudere bene la porta");
+
+# Display nfc icon
+      - id: page_nfc #nfc
+        lambda: |-
+          it.print(64, 32, id(icon_font), TextAlign::CENTER, "\U000F0398");
+      - id: nfc_denied #nfc denied
+        lambda: |-
+          it.print(64, 32, id(icon_font), TextAlign::CENTER, "\U000F0E54");
+          
+# Display bell page when pressing doorbell
+      - id: bell
+        lambda: |-
+          it.print(64, 32, id(icon_font), TextAlign::CENTER, "\U000F009F");
+
+#      - display.page.show_next: my_display
+        
+#interval:
+#   - interval: 5s
+#     then:
+#       - display.page.show_next: display01
+#       - component.update: display01
+
+
+#  on_:
+#  - if:
+#      condition:
+#        # Checks if "my_text_sensor" has state "Hello World"
+#        text_sensor.state:
+#          id: my_text_sensor
+#          state: 'Hello World'
+
+#     if (id(alarm_control_panel.antifurto).has_state()) {
+#          {
+#           {"disarmed", "\U000F099E"},
+#            {"armed_home", "\U000F088F"},
+#            {"armed_away", "\U000F0498"},
+#            {"armed_night", "\U000F0780"},
+#            {"armed_custom_bypass", "\U000F0FC5"},
+#            {"pending", "\U000F0565"},
+#            {"arming", "\U000F0BC4"},
+#            {"disarming", "\U000F0340"},
+#            {"triggered", "\U000F139C"},
+#          };
+#            it.printf(64, 32, id(icon_font), TextAlign::CENTER, alarm_control_panel.antifurto[id(current).state.c_str()].c_str());
+#      }

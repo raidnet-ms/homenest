@@ -1,0 +1,10 @@
+#binary light relay
+output:
+  - platform: gpio
+    id: light_output
+    pin: $light_pin
+light:
+  - platform: binary
+    name: "luce"
+    output: light_output
+    id: light1

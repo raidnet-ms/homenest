@@ -1,0 +1,26 @@
+esphome:
+  on_boot:
+#    priority: 800
+#    then:
+      - display.page.show: boot
+      - delay: 2s
+      - display.page.show: connection
+      - wait_until:
+          condition:
+            wifi.connected:
+          timeout: 12s
+      - delay: 2s
+      - display.page.show: home #volendo creare anche pagina per api connection
+#            api.connected:
+#          timeout: 10s
+#          api.connected:
+#          binary_sensor.is_on: connection_status
+
+      - logger.log: Device is connected!
+      - rtttl.play: "two short:d=4,o=5,b=100:16e6,16e6"
+
+#       on_loop:
+#      wifi.connected: false
+#    - display.page.show: connection
+  on_shutdown:
+    - display.page.show: boot

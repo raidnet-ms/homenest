@@ -1,0 +1,26 @@
+switch:
+  - platform: template
+    name: "Buzzer Enabled"
+    id: buzzer_enabled
+    icon: mdi:volume-high
+    optimistic: true
+    restore_state: true
+    entity_category: config
+#restore_mode: ALWAYS_OFF 
+  #inverted: true #verificare
+
+# Define the buzzer output
+output:
+  - platform: $buzzer_platform # ledc for esp32 or esp8266_pwm for esp8266
+    pin: $gpio_buzzer
+    id: buzzer
+
+# Define buzzer as output for RTTTL
+rtttl:
+  output: buzzer
+
+#solo per passive buzzer che non supportano il ducy cicle settato al 100% bisogna impostare questo
+#    - output.turn_on: buzzer 
+#    - output.set_level:
+#        id: buzzer
+#        level: "50%"

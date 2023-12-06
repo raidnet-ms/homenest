@@ -1,0 +1,34 @@
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: $doorbell_pin
+      mode: INPUT_PULLUP
+      inverted: true
+#    device_class: motion
+    id: door_bell
+    name: "Campanello"
+    icon: "mdi:bell-ring-outline"
+    filters:
+      - delayed_on: 100ms
+      - delayed_off: 100ms
+# display icon on screen
+    on_press:
+      - display.page.show: bell
+      - logger.log: "Suonano alla porta..."
+      - if:
+          condition:
+            switch.is_on: buzzer_enabled
+          then:
+            rtttl.play: "success:d=24,o=5,b=100:c,g,b"
+      - homeassistant.service:
+          service: notify.html5
+          data:
+            title: Door Bell ringing!
+            message: "Check who is at the door"
+#          priority: high
+#        actions:
+#          - action: "open"
+#            title: "Open the door"
+#            icon: "sfsymbols:bell"
+      - delay: 2s
+      - display.page.show: home

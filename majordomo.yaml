@@ -1,0 +1,8 @@
+substitutions:
+  name: majordomo
+  friendly_name: Majordomo
+
+
+#aggiungere il remote package su git e le substitution per l'utente
+packages:
+  device: !include device/majordomo/packages.yaml

@@ -1,0 +1,39 @@
+button:
+  - platform: template
+    name: Segnapassi a tempo
+    id: light_button
+    icon: mdi:lightbulb-on
+    on_press:
+      - light.turn_on: light1
+      - delay: !lambda return id(timer_light).state *600;
+      - light.turn_off: light1
+#  output: light_output
+#  duration: 60s
+#    - light.turn_off: light1
+  - platform: template
+    name: Skip
+    id: skip_sprinkler
+    icon: mdi:skip-next
+    on_press:
+      - sprinkler.next_valve: giardino
+  - platform: template
+    name: Previous
+    id: prev_sprinkler
+    icon: mdi:skip-previous
+    on_press:
+      - sprinkler.previous_valve: giardino
+  - platform: template
+    name: Pause
+    id: pause_sprinkler
+    icon: mdi:pause
+    on_press:
+      - sprinkler.resume: giardino
+
+#      then:
+#        - if:
+#            condition:
+#              lambda: 'return id(giardino).paused_valve().has_value();'
+#            then:
+#              - sprinkler.pause: giardino
+#            else:
+#              - sprinkler.resume: giardino

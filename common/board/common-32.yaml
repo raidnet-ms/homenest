@@ -1,0 +1,15 @@
+---
+esp32:
+  board: ${board}
+#  framework:
+#    type: arduino
+
+improv_serial:
+#  next-url: http://example.com/?device_name={{device_name}}&ip_address={{ip_address}}&esphome_version={{esphome_version}}
+
+esp32_improv:
+  authorizer: none
+#  status_indicator:
+
+packages:
+  device_base: !include ../device_base.yaml

@@ -1,0 +1,29 @@
+# versione temporanea in attesa di poter utilizzare il repository su github non apena Jesse terminerà il lavoro sugli include in remoto
+# aggiungere il comando per spegnere gli switch on boot
+substitutions:
+#  name: sprinkler
+#  friendly_name: Irrigatore
+#  project_name: raidnet.alligator
+#  project_version: 1.0.0
+#  disable_entities: 'true'
+#  log_level: debug
+#  light_pin: GPIO1
+#  zonename_A: A - Null
+#  zonename_B: B - Siepe
+#  zonename_C: C - Orto
+#  zonename_D: D - Prato
+
+#  board: d1_mini
+
+####################################################
+#dashboard_import:
+#  package_import_url: github://raidnet-ms/esphome-nest/device/sprinkler/main.sprinkler.yaml
+#  import_full_config: false # or true
+
+packages:
+  device: !include device/sprinkler/packages.yaml
+
+
+# sensor: !include_dir_list buttons/ #da testare. in teoria servirebbe una cartella button in common e una nella cartella del device così che questo comando possa chiamare i file button specifici del device e quelli in comune
+####################################################
+

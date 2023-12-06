@@ -1,0 +1,138 @@
+# SDA pin8
+# SCL pin2
+
+# pin2 pin1 pin0 pin4 (in basso)
+# pin5 pin6 motor interlock 12v
+
+# 3 7 5 6 get also 12v
+
+
+substitutions:
+  name: esp32-c3
+  friendly_name: esp32-c3-pico
+
+  project_name: raidnet.idftest
+  project_version: 1.0.0
+  log_level: debug
+
+# GPIO
+#  led_pin: GPIO7 #inserito in board/wemos-c3-pico.yaml
+#  light_pin: GPIO7
+i2c: #inserito in board/wemos-c3-pico.yaml
+  sda: GPIO02 #GPIO8
+  scl: GPIO10
+
+# GPIO5 GPIO6 gestiscono interlock per valvola
+# 2, 1, 0, 4 gpio in basso
+#3, 5, 6 pin liberi + tx e rx
+esphome:
+  platformio_options:
+#    board_build.f_flash: 40000000L
+    board_build.flash_mode: dio
+#    board_build.flash_size: 4MB
+
+switch:
+  - platform: gpio
+    pin: GPIO5
+    name: "Open Valve"
+#    device_class: "opening"
+    id: motorOpen
+    interlock: [motorClose]
+
+  - platform: gpio
+    pin: GPIO6
+    name: "Close Valve"
+    id: motorClose
+    interlock: [motorOpen]
+
+# Setting
+# creare un helper che conserva il valore di allarme allagamento. on boot verificare se l'allarme è attivato o meno. se attivo chiudere la valvola. conservare last state della valvola.
+number: 
+  - platform: template
+    name: Valore contatore
+    unit_of_measurement: 'm³'
+    device_class: water
+    entity_category: config
+    min_value: 0
+    max_value: 1000000
+    step: 1
+    optimistic: true #sostituire con set action e usare la variabile nella lambda per aggiungere il valore di metri cubi al contatore.
+
+sensor:
+  - platform: pulse_counter
+    state_class: measurement
+    name: "Flusso Acqua Istantaneo"
+    id: flusso_acqua
+    pin: GPIO2
+    update_interval: 1s
+    filters:
+    - lambda: return (x / 400.0); #Flow pulse: F=(6.68Q)±5% with Q=L/min #provare  x / 396 se è più preciso
+    unit_of_measurement: "L/min"
+
+# Volume totale in metri cubi
+  - platform: integration
+    device_class: water
+    state_class: total_increasing
+    name: "Consumo Totale Acqua in m³"
+    unit_of_measurement: 'm³'
+    accuracy_decimals: 4
+    sensor: flusso_acqua
+    time_unit: min
+    icon: "mdi:water"
+    filters:
+        - lambda: return (x / 1000);
+
+# Volume totale in litri
+  - platform: integration
+    device_class: water
+    state_class: total_increasing
+    name: "Consumo Totale Acqua in litri"
+    unit_of_measurement: 'L'
+    accuracy_decimals: 2
+    sensor: flusso_acqua
+    time_unit: min
+    icon: "mdi:water"
+
+packages:
+  board: !include common/board/wemos-c3-pico.yaml
+
+#external_components:
+#    - source: github://pr#5008
+#      components: [esp32_ble]
+
+
+light:
+  - platform: esp32_rmt_led_strip
+    rgb_order: GRB
+    pin: $light_pin
+    num_leds: 1
+    rmt_channel: 0
+    chipset: ws2812
+    name: "Onboard Led"
+
+
+    effects:
+      - pulse:
+      - pulse:
+          name: "Slow Pulse"
+      # transition_length: 1s      # defaults to 1s
+          update_interval: 2s
+
+
+#per testare provare a collegare la 12v del motore con la 12v in input e creare un sensore binario
+binary_sensor:
+  - platform: gpio
+    pin: GPIO3
+    name: "Sensore 3 input 12v"
+
+#  - platform: gpio
+#    pin: GPIO5 #testare 3-5-6-7
+#    name: "Sensore 5 input 12v"
+
+#  - platform: gpio
+#    pin: GPIO6 #testare 3-5-6-7
+#    name: "Sensore 6 input 12v"
+
+  - platform: gpio
+    pin: GPIO7 #testare 3-5-6-7
+    name: "Sensore 7 input 12v"

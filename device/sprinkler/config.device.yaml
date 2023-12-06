@@ -1,0 +1,12 @@
+number:
+  - platform: template
+    name: "Timer segnapassi"
+    step: 30
+    min_value: 30
+    max_value: 300
+    id: timer_light
+    optimistic: true
+    restore_value: true
+    unit_of_measurement: s
+    icon: mdi:timer
+    entity_category: config

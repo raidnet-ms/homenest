@@ -1,0 +1,47 @@
+substitutions:
+  devicename: tempsens
+  upper_devicename: Sensore Temperatura
+  
+esphome:
+  project:
+    name: "marco.$devicename"
+    version: "1.0.0"
+
+packages:
+    device_base: !include common/board/esp01s.yaml
+    wifi: !include common/wifi.yaml
+#################################################################
+
+status_led:
+  pin:
+    number: 1
+    inverted: true
+  id: led
+  
+sensor:
+  - platform: dht
+    model: dht11
+    pin: 2
+    temperature:
+      name: "$upper_devicename bagno"
+#      icon: "mdi:temperature-celsius"
+      unit_of_measurement: "°C"
+      id: inside_temperature
+      filters:
+      - calibrate_linear:
+    #  Map 0.0 (from sensor) to 0.0 (true value)
+          - 0.0 -> 0.0
+          - 30.0 -> 23.1
+#      - sliding_window_moving_average:
+#         window_size: 15
+#         send_every: 15
+    humidity:
+      name: "$upper_devicename umidità bagno"
+#      icon: "mdi:water-percent"
+      filters:
+      - calibrate_linear:
+          # Map 0 (from sensor) to 0 (true value)
+          - 0 -> 0
+          - 48 -> 68
+
+    update_interval: 60s

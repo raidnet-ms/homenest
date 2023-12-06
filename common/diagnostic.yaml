@@ -1,0 +1,61 @@
+binary_sensor:
+  - platform: status
+    name: "Stato"
+    id: connection_status
+    entity_category: diagnostic
+
+text_sensor:
+#  - <<: !include wifi_signal_bars.yaml  # creare sensore copy invece che text
+  - platform: wifi_info
+    ip_address:
+      name: "IP Address"
+      disabled_by_default: true
+      entity_category: diagnostic
+    ssid:
+      name: Connected SSID
+      disabled_by_default: true
+      entity_category: diagnostic
+    bssid:
+      name: Connected BSSID
+      disabled_by_default: true
+      entity_category: diagnostic
+    mac_address:
+      name: Mac Wifi Address
+      disabled_by_default: true
+      entity_category: diagnostic
+    scan_results:
+      name: Latest Scan Results
+      disabled_by_default: true
+      entity_category: diagnostic
+
+button:
+  - platform: restart
+    name: "Riavvia"
+    entity_category: diagnostic
+  - platform: shutdown
+    name: "Spegni"
+    disabled_by_default: $disable_entities
+    entity_category: diagnostic
+  - platform: safe_mode
+    name: "Riavvia in Safe Mode"
+    entity_category: diagnostic
+    disabled_by_default: $disable_entities
+
+sensor:
+  - <<: !include wifi_signal_percent.yaml
+  - platform: wifi_signal
+    name: "Wifi Signal"
+    filters:
+      - filter_out: 85.0 # taken from esphome filters example for wifi
+      - quantile: # from esphome docs
+          window_size: 7
+          send_every: 4
+          send_first_at: 3
+          quantile: .9
+    id: wifi_signal_db
+    entity_category: diagnostic
+
+  - platform: uptime
+    name: "Uptime"
+    entity_category: diagnostic
+    disabled_by_default: true

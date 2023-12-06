@@ -1,0 +1,66 @@
+substitutions:
+# Device Substitutions
+  name: majordomo
+  friendly_name: Majordomo
+
+  project_name: raidnet.majordomo
+  project_version: 1.0.0
+  buzzer_platform: ledc
+  house_name: Casa mia # display your house name on the front door display # move to esphomeconfig-settings as text component
+
+# Options
+  disable_entities: 'true' # disable unnecessary entities by default
+  log_level: debug
+
+# Device GPIO
+  door_sensor_pin: GPIO19 # - door sensor checks if the door is properly closed
+  door_lock: GPIO17 #output to lock the door
+  lock_state_pin_a: GPIO05 #lock state sensor
+#  lock_state_pin_b: GPIO05 #scegliere un pin
+#  sensing_pin: GPIO35 #non ricordo cosa è
+  onboard_led: GPIO16 #è 16 il pin del led
+# status_indicator: GPIO
+  gpio_buzzer: GPIO33 #provare con il gpio5 poichè al boot dovrebbe emettere un pwm signal e mi risparmio di metterlo artificialmente il beep al boot
+  doorbell_pin: GPIO18 #doorbell button
+  hall_sensor_a: GPIO36 # not needed to link to the sensor, just connect pins, they behave as antenna
+  hall_sensor_b: GPIO39 # not needed to link to the sensor, just connect pins, they behave as antenna
+
+
+time:
+  - platform: homeassistant
+    id: esptime
+
+
+# Device API
+api:
+  services:
+  - service: rfidreader_tag_ok
+#    - if:
+#        condition:
+#          switch.is_on: buzzer_enabled
+    then:
+    - rtttl.play: "ok:d=24,o=5,b=100:c4,g4,b4"
+  - service: rfidreader_tag_ko
+    then:
+    - rtttl.play: "ko:d=24,o=5,b=100:28a4,6d4"
+  - service: play_rtttl
+    variables:
+      song_str: string
+    then:
+    - rtttl.play: !lambda 'return song_str;'
+  - service: doorbell
+    then:
+    - rtttl.play: "success:d=24,o=5,b=100:c,g,b"
+
+# Device OTA
+#ota:
+#  on_begin:
+#    - display.page.show: ota_begin
+#  on_progress:
+#      - display.page.show: otaprogress
+#  on_end:
+#    then:
+#      - display.page.show: ota_end
+#      - delay: 3s
+#  on_error:
+#    - display.page.show: ota_error

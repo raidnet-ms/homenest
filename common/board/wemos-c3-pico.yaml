@@ -1,0 +1,15 @@
+substitutions:
+#  board: esp32-c3-devkitm-1
+  board: lolin_c3_mini
+  variant: esp32c3
+  light_pin: GPIO7
+
+# I²C Bus
+i2c:
+  sda: GPIO8
+  scl: GPIO10
+#  scan: true
+#  frequency: 100kHz
+
+packages:
+  base: !include common-32-idf.yaml

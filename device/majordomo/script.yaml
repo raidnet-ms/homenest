@@ -1,0 +1,13 @@
+# Success
+script:
+  - id: success
+    then:
+        - delay: 1s  
+        - output.set_level:
+          id: buzzer
+          level: "50%" 
+        - rtttl.play: "beep:d=16,o=5,b=100:b"
+#          rtttl.play: "success:d=24,o=5,b=100:c,g,b"
+#       - rtttl.play: "two short:d=4,o=5,b=100:16e6,16e6"
+#     - rtttl.play: "ok:d=24,o=5,b=100:c4,g4,b4"
+#   - rtttl.play: "ko:d=24,o=5,b=100:28a4,6d4"

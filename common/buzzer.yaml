@@ -1,0 +1,18 @@
+switch:
+- platform: template
+  name: "Buzzer Enabled"
+  id: buzzer_enabled
+  icon: mdi:volume-high
+  optimistic: true
+  restore_mode: RESTORE_DEFAULT_OFF
+  entity_category: config
+
+# Define the buzzer output
+output:
+  - platform: $buzzer_platform # ledc for esp32 or esp8266_pwm for esp8266
+    pin: $gpio_buzzer
+    id: buzzer
+
+# Define buzzer as output for RTTTL
+rtttl:
+  output: buzzer

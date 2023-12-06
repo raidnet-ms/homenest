@@ -1,0 +1,37 @@
+# text_sensor:
+# Show bars for Wifi Signal   # da completare
+- platform: template
+  name: "Wifi Bars"
+  disabled_by_default: true
+  entity_category: diagnostic
+  lambda: |-
+    if (id(wifi_signal_db).state >= -30)  {
+      return (std::string) "4";
+    } else if (id(wifi_signal_db).state < -30 && id(wifi_signal_db).state >= -67) {
+      return (std::string) "3";
+    } else if (id(wifi_signal_db).state < -67 && id(wifi_signal_db).state >= -70) {
+      return (std::string) "2";
+    } else if (id(wifi_signal_db).state < -70 && id(wifi_signal_db).state >= -80) {
+      return (std::string) "1";
+    } else {
+      return (std::string) "0";
+    }
+#  - platform: copy # Reports the WiFi signal strength in bars
+#    source_id: wifi_signal_db
+#    name: "Wifi Bars"
+#    disabled_by_default: true
+#    entity_category: diagnostic
+#    filters:
+#      lambda: |-
+#        if (id(wifi_signal_db).state >= -30)  {
+#          return (std::string) "4";
+#        } else if (id(wifi_signal_db).state < -30 && id(wifi_signal_db).state >= -67) {
+#          return (std::string) "3";
+#        } else if (id(wifi_signal_db).state < -67 && id(wifi_signal_db).state >= -70) {
+#          return (std::string) "2";
+#        } else if (id(wifi_signal_db).state < -70 && id(wifi_signal_db).state >= -80) {
+#          return (std::string) "1";
+#        } else {
+#          return (std::string) "0";
+#        }
+#    unit_of_measurement: "Bars"

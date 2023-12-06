@@ -1,0 +1,38 @@
+
+switch:
+#GPIO OUTPUT
+# valve_A
+  - platform: gpio
+    id: a_on
+    pin: D8
+#    inverted: true #unico invertito perchè al boot deve essere low
+#    mode: OUTPUT #vedere se questo aiuta a tenere il pin su low al boot. dovrebbe bastare occorre però aggiungere un diodo su tutti i pin per evitare il ritorno della corrente
+  - platform: gpio
+    id: a_off
+    pin: D7
+#    inverted: true
+# valve_B
+  - platform: gpio
+    id: b_on
+    pin: D6
+    inverted: true
+  - platform: gpio
+    id: b_off
+    pin: D5
+#    inverted: true
+# valve_C
+  - platform: gpio
+    id: c_on
+    pin: D1 #deve essere high o non si avvia - occhio che è anche onboardled
+    inverted: true
+  - platform: gpio
+    id: c_off
+    pin: D2 #da sostituire perchè in avvio da problemi
+    inverted: true
+# valve_D
+  - platform: gpio
+    id: d_on
+    pin: D3 #deve essere high on boot o non si avvia
+  - platform: gpio
+    id: d_off
+    pin: D4

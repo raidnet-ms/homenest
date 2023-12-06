@@ -1,0 +1,92 @@
+substitutions:
+  devicename: smartfan
+  upper_devicename: Smart Fan
+##############################################################  
+esphome:
+  project:
+    name: "marco.$devicename"
+    version: "1.0.0"
+
+packages:
+    device_base: !include common/board/esp01s.yaml
+    wifi:     !include common/wifi.yaml
+#################################################################
+# OnBoard Led su pin 2
+button:
+  - platform: restart
+    name: "Riavvia $upper_devicename"
+    entity_category: config
+
+status_led:
+  pin:
+    number: 2
+    inverted: true
+  id: led
+
+sensor:
+  - platform: dht
+    model: am2302
+    pin:
+      number: 3
+    humidity:
+      name: "Umidita $devicename"
+      on_value_range:
+        - above: 65.0
+          then:
+            - fan.turn_on: smartfan
+        - below: 55.0
+          then:
+            - fan.turn_off: smartfan
+    temperature:
+      name: "Temperatura $devicename"
+
+number:
+  - platform: template
+    name: $upper_devicename timer
+    step: 1
+    min_value: 0
+    max_value: 60
+    id: fan_timer
+    optimistic: true
+    restore_value: true
+    entity_category: config
+    icon: mdi:timer
+
+#Relay su pin 0
+output:
+  platform: gpio
+  pin:
+    number: 0
+#     inverted: true
+  id: fanoutput
+
+switch:
+  platform: template
+  name: "Avvia timer ventola"
+  icon: "mdi:av-timer"
+  turn_on_action:
+  - fan.turn_on: smartfan
+#  - delay: 60s
+  - delay: !lambda 'return id(fan_timer).state *60000;'
+  - fan.turn_off: smartfan
+
+#pulsante fisico accensione
+binary_sensor:
+  - platform: gpio
+    pin: 
+      number: 1
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "Pulsante accensione"
+    on_release:
+    - fan.toggle: smartfan
+    - delay: !lambda 'return id(fan_timer).state *60000;'
+    - fan.turn_off: smartfan
+    filters:
+    - delayed_on: 1s
+
+fan:
+  platform: binary
+  output: fanoutput
+  name: "$upper_devicename"
+  id: smartfan

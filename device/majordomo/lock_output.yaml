@@ -1,0 +1,46 @@
+output:
+  - platform: gpio
+    pin: $door_lock
+    id: 'latch'
+lock:
+  - platform: output
+    name: "Avvio mandate"
+    output: 'latch'
+    id: serratura
+    on_lock:
+      if:
+        condition:
+#          lambda: 'return id(opening_$devicename).state;'
+          binary_sensor.is_on: doorsensor
+        then:
+          - logger.log: "Chiudere prima la porta!"
+          - display.page.show: first_close_door
+          - delay: 200ms
+#        wait_until:
+#          binary_sensor.is_off: doorsensor
+        else:
+          - output.turn_on: latch
+#          - lock.open: latch
+          - logger.log: "Avvio mandate serratura..."
+# mostra stato su display
+          - delay: 1s #delay per mostrare prima l'icona nfc
+          - display.page.show: doorlock
+          - delay: 2s
+#        - lambda: id(door_lock).publish_state(true);
+          - logger.log: "Serratura chiusa."
+# mostra home su display
+          - display.page.show: home
+    on_unlock:
+      if:
+        condition:
+          binary_sensor.is_off: doorsensor
+        then:
+        - display.page.show: doorlock
+        - output.turn_off: latch
+        - delay: 3s
+        - logger.log: "Serratura aperta."
+
+#        - component.update: display01
+        # mostra home su display
+        - display.page.show: home   #se abilito questo va in conflitto con il boot e interrompe il display wait connection
+

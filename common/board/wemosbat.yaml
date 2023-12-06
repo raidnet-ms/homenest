@@ -1,0 +1,30 @@
+substitutions:
+  board: wemosbat
+#  variant: esp32 # Non serve se la board è riconosciuta
+
+packages:
+  base: !include common-32-idf.yaml
+
+
+
+#  status_indicator: onboard_led  #1 extra LED could be programmed(Connected with GPIO16[D0]) magari per improv bt
+
+output:
+  - platform: gpio
+    pin: $onboard_led
+    id: onboard_led
+
+#uart:
+#  rx_pin: GPIO3
+#  tx_pin: GPIO1
+#  baud_rate: 57600
+
+i2c:
+  sda: GPIO021
+  scl: GPIO022
+  #  scan: true  #default true se true non serve l'address
+
+#spi:
+
+
+#inserire controllo carica batteria

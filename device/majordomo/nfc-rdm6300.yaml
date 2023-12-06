@@ -1,0 +1,31 @@
+#lettore nfc rdm 6300
+uart:
+#  tx_pin: GPIO01
+  rx_pin: GPIO03
+  baud_rate: 9600
+#  parity: even
+#  stop_bits: 2
+
+rdm6300:
+  on_tag:
+    then:
+    - homeassistant.tag_scanned: 'return uint32_to_string(x);'
+    - logger.log: "Tag letto"
+    - display.page.show: nfc
+    - delay: 2s
+    - display.page.show: home
+    - text_sensor.template.publish:
+        id: rfid_tag_number
+        state: !lambda 'return uint32_to_string(x);'
+    
+
+#binary_sensor:           #disattivare quando si vuole leggere l'id del tag
+#  - platform: rdm6300
+#    uid: '4619654'
+#    name: "Chiave Viola Marco"
+
+
+text_sensor:
+  - platform: template
+    name: "RFID Tag"
+    id: rfid_tag_number

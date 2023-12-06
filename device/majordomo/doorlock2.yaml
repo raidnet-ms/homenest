@@ -1,0 +1,139 @@
+output:
+  - platform: gpio
+    pin: $door_lock
+    id: latch
+#  - platform: gpio
+#    pin: $door_lock_open
+#    id: $devicename_lock_open
+#  - platform: gpio
+#    pin: $door_lock_close
+#    id: $devicename_lock_close
+
+# hall sensor per rilevare lo stato della serratura impostare filtro per definire valori apertura e chiusura
+binary_sensor:
+  - platform: gpio
+    pin: 
+      number: $lock_state_pin_a
+      mode: INPUT_PULLUP
+#      inverted: True
+    name: "Sensore serratura"
+    device_class: lock
+    filters:          #piccolo delay per evitare falsi allarmi
+      - delayed_on_off: 50ms
+    id: lock_state
+#    on_state:
+#      - homeassistant.event:
+#          event: esphome.lock_state
+#          data:
+#            title: $easyname lock state changed
+
+lock:
+  - platform: template
+    name: "Serratura"
+    icon: "mdi:lock-outline"
+    id: serratura
+#    lambda: |-
+#      if (id(lock_state).state) {
+#        return LOCK_STATE_UNLOCKED;
+#      } else {
+#        return LOCK_STATE_LOCKED;
+#      }
+    lock_action:
+      if:
+        condition:
+          - binary_sensor.is_on: doorsensor
+        then:
+            - logger.log: "Chiudere prima la porta!"
+            - display.page.show: first_close_door
+            - wait_until:
+                binary_sensor.is_off: doorsensor
+            - delay: 2s
+            - display.page.show: home
+#            or:
+#            - binary_sensor.is_off: lock_state
+#            then:
+#              - logger.log: "chiavistello"
+        else:
+            - output.turn_on: latch
+            - lock.template.publish:
+                id: serratura
+                state: !lambda 'return LOCK_STATE_LOCKING;'
+            - logger.log: "Chiusura serratura in corso..."
+            - display.page.show: doorlock
+            - wait_until:
+                binary_sensor.is_off: lock_state
+            - lock.template.publish:
+                id: serratura
+                state: LOCKED
+            - delay: 2s
+            - display.page.show: home
+
+    unlock_action:
+      if:
+        condition:
+          binary_sensor.is_off: doorsensor
+        then:
+          - output.turn_off: latch
+          - lock.template.publish:
+              id: serratura
+              state: UNLOCKING
+          - display.page.show: doorlock
+          - logger.log: "Apertura serratura in corso..."
+          - wait_until:
+                binary_sensor.is_on: lock_state
+          - lock.template.publish:
+              id: serratura
+              state: UNLOCKED
+          - delay: 2s
+          - display.page.show: home
+        else:
+          - logger.log: "Problemi al sensore porta!"
+
+sensor: # Retrieve lock state
+  - platform: esp32_hall
+    name: "ESP32 Hall Sensor"
+    update_interval: 1s
+
+#sensor:
+#  - platform: rotary_encoder
+#    name: "Rotary Encoder"
+#    id: lock_state
+#    pin_a: GPIO05  # Signal In: The motor step
+#    pin_b: GPIO13  # Signal In: The motor rotation
+#    on_value: #provare a spostare azione in lock action
+#      then:
+#        - script.execute: stop_at_the_end
+
+
+#    on_lock:
+# mostra stato su display
+#      - lock.template.publish:
+#          id: serratura
+#          state: LOCKED
+#      - display.page.show: doorlock
+#      - logger.log: "Serratura chiusa."
+#      - delay: 2s
+#      - display.page.show: home
+#    on_unlock:
+#      - lock.template.publish:
+#          id: serratura
+#          state: UNLOCKED
+#      - display.page.show: doorlock
+#      - logger.log: "Serratura aperta."
+#      - delay: 2s
+#      - display.page.show: home   #se abilito questo va in conflitto con il boot e interrompe il display wait connection
+#        - component.update: display01
+
+
+##          - lock.open: latch
+
+#        - wait_until:
+#            lock.is_locked: door_lock 
+#        - display.page.show: home
+
+#alternativa, mostrare pagina di stato serratura e in display in questa pagina proporre le due icone alternative
+#    on_state:
+#      then:
+#        - display.page.show: doorlock
+#        - delay: 2s
+#        - display.page.show: home

@@ -1,0 +1,52 @@
+substitutions:
+  name: "presencemod2-ld2410"
+  friendly_name: "Sensore movimento"
+  disable_entities:  "true" # Disabilitare in blocco entità superflue
+  wifi_ap_timeout: 2min    # default to 2 minute timeout for yaml file as package.
+
+esphome:
+  name: "$name"
+#  name_add_mac_suffix: true
+  build_path: ./build/${name}
+  project:
+    name: "papperone.presence-ld2410"
+    version: "0.1.1"
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+esp32_improv:
+  authorizer: none
+#  status_indicator: onboard_led #vuole un output
+
+improv_serial:
+
+packages:
+  remote_package:
+    url: https://github.com/papperone/ESPresenceLD
+    ref: main # optional
+    file: ESPresenceLD.yaml
+    refresh: 60s # optional
+
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+ # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ap_timeout: $wifi_ap_timeout
+ # ssid: # non occorre, di default prenderà il devicename
+  # password: "1234578"
+  
+# Enable Home Assistant API
+api:
+
+ota:
+#  on_error:
+#    then:
+#      - button.press: restart_button
+
+captive_portal:

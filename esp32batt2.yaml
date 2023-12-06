@@ -1,0 +1,13 @@
+substitutions:
+  name: esp32batt2
+  friendly_name: esp32batt2
+  project_name: raidnet.majordomo
+  project_version: 1.0.0
+  log_level: debug
+  onboard_led: GPIO16 #è 16 il pin del led
+
+
+
+
+packages:
+  board: !include common/board/wemosbat.yaml

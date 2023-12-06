@@ -1,0 +1,36 @@
+esphome:
+  name: '$name'
+  friendly_name: '$friendly_name'
+#  comment: $comment
+  build_path: ./build/$name
+  project:
+    name: '$project_name'
+    version: '$project_version' #1.0.0
+# name_add_mac_suffix: true
+
+# Enable logging
+logger:
+  level: '$log_level'
+
+captive_portal:
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+#in caso di mofidica al devicename impostare il vecchio nome al primo update
+#  use_address: ikea-airq.local
+# Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    password: "12345678" # verificare su dashboard import se serve
+
+api:
+# la dashboard import carica una key univoca per ogni device. testare se posso eliminare le voci di api
+  encryption:
+    key:  !secret api_key
+ota: # con dasboard import dovrebbe essere in teoria vuoto
+  password: !secret ota_password
+
+# Common packages
+packages:
+  diagnostic: !include diagnostic.yaml

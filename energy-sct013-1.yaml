@@ -1,0 +1,117 @@
+substitutions:
+  name: energy-sct013-1
+  friendly_name: energy
+  log_level: DEBUG #debug
+  project_name: raidnet.energy
+  project_version: 1.0.0
+# GPIO
+  status_led: D4
+  gpio_network_led: D4
+# Device substitutions
+  update_time: never
+  ic1Volts: "240"
+
+packages:
+  board: !include common/board/d1_mini.yaml
+
+#sistemare secondo led sulla board led rosso per api connect
+#on_boot:
+  #    if:
+#      condition:
+#        api.connected:
+#      then:
+#        - light.turn_on: api_state
+
+status_led:
+  pin:
+    number: $status_led
+    inverted: true
+
+light:
+  - platform: status_led
+    entity_category: config
+    id: network_state
+#    name: "Network state"
+    pin: $gpio_network_led
+
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+#.......................................
+#...Below script sets up PIN A and B ...
+#......then tells CT# to update.........
+#.......................................
+output:
+  - platform: gpio
+    pin: D1
+    id: pinB
+  - platform: gpio
+    pin: D2
+    id: pinA
+
+interval:
+  - interval: 15s
+    then:
+      - script.execute: readCTs
+script:
+  - id: readCTs
+    then:
+    # A	B  CT
+    # 0	0  1
+    # setup for CT1 A=0 B=0 - ct1Amps
+      - output.turn_off: pinA
+      - output.turn_off: pinB
+      - delay: 2s
+      - component.update: ct1Amps
+      - delay: 500ms
+      - component.update: ct1Watts
+      - delay: 500ms
+
+sensor:
+  - platform: adc
+    pin: A0
+    id: adc_sensor
+#    attenuation: 11db #esp32 only
+
+  - platform: ct_clamp
+    sensor: adc_sensor
+    device_class: current
+    name: ct1Amps
+    id: ct1Amps
+    unit_of_measurement: A
+    accuracy_decimals: 5
+#    sample_duration: 200ms # default 200ms
+    update_interval: ${update_time}
+    filters:
+      - multiply: 100
+      - calibrate_linear:
+          # Measured value of 0 maps to 0A
+          - 0 -> 0
+#          - 0.00207 -> 0.06198 # lampadina 15w
+#          - 0.00340 -> 0.36 #0.31818 # lampadina 77w
+#          - 0.00363 -> 0.41322 # lampadina 100w
+          - 0.74 -> 0.77
+          # Known load: 5.706A
+          # Raw AC Value in logs: 0.011A 
+      #    - 0.011 -> 5.700
+
+# Watts
+  - platform: template
+    name: CT1 Watts
+    id: ct1Watts
+    device_class: energy
+    lambda: return id(ct1Amps).state * ${ic1Volts};
+    accuracy_decimals: 0
+    unit_of_measurement: W
+    update_interval: ${update_time}
+
+# kWh
+  - platform: total_daily_energy
+    name: Total kWh
+    icon: mdi:home-lightning-bolt
+    power_id: ct1Watts
+    filters:
+      - multiply: 0.001
+    unit_of_measurement: kWh

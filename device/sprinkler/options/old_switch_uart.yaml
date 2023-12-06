@@ -1,0 +1,147 @@
+#vecchio tentativo di utilizzare uart switch con solenoidi bistabili. non funziona
+
+# Enable logging
+logger:
+  baud_rate: 0 # Needed to free up UART pins
+
+uart:
+  baud_rate: 115200 # speed to STC15L101EW
+  tx_pin: GPIO1
+  rx_pin: GPIO3
+
+
+# Switch for bistable solenoid valve
+switch:
+  - platform: template
+    name: "Irrigazione Prato"
+    id: "relay1"
+#    icon: mdi:sprinkler
+#    restore_state: false
+#    optimistic: true
+    turn_on_action:
+      - uart.write: [0xA0, 0x01, 0x01, 0xA2] # turn on Relay1 impulse output
+      - delay: 800ms
+      - uart.write: [0xA0, 0x01, 0x00, 0xA1]
+      - text_sensor.template.publish:
+          id: irrigation_state
+          state: "Irrigazione prato"
+    turn_off_action:
+      - uart.write: [0xA0, 0x01, 0x01, 0xA2]
+      - delay: 800ms
+      - uart.write: [0xA0, 0x01, 0x00, 0xA1]
+      - text_sensor.template.publish:
+          id: irrigation_state
+          state: "Irrigazione prato terminata"
+  
+  - platform: template
+    name: "Irrigazione Siepe"
+    id: "relay2"
+    icon: mdi:sprinkler
+    optimistic: true
+    turn_on_action:
+      - uart.write: [0xA0, 0x02, 0x01, 0xA3] # turn on Relay2
+      - delay: 800ms
+      - uart.write: [0xA0, 0x02, 0x00, 0xA2]
+      - text_sensor.template.publish:
+          id: irrigation_state
+          state: "Irrigazione siepe"
+    turn_off_action:
+      - uart.write: [0xA0, 0x02, 0x01, 0xA3]
+      - delay: 800ms
+      - uart.write: [0xA0, 0x02, 0x00, 0xA2]
+      - text_sensor.template.publish:
+          id: irrigation_state
+          state: "Irrigazione siepe terminata"
+  
+  - platform: template
+    name: "Irrigazione Orto"
+    id: "relay3"
+    icon: mdi:sprout
+    optimistic: true
+    turn_on_action:
+      - uart.write: [0xA0, 0x03, 0x01, 0xA4] # turn on Relay3
+      - delay: 800ms
+      - uart.write: [0xA0, 0x03, 0x00, 0xA3]
+      - text_sensor.template.publish:
+          id: irrigation_state
+          state: "Irrigazione orto"
+    turn_off_action:
+      - uart.write: [0xA0, 0x03, 0x01, 0xA4]
+      - delay: 800ms
+      - uart.write: [0xA0, 0x03, 0x00, 0xA3]
+      - text_sensor.template.publish:
+          id: irrigation_state
+          state: "Irrigazione orto terminata"
+
+  - platform: template
+#   name: "Luci Giardino"
+    id: "relay4"
+    icon: mdi:lightbulb-on-outline
+#   optimistic: true
+    turn_on_action:
+      - uart.write: [0xA0, 0x04, 0x01, 0xA5] # turn on Relay4
+    turn_off_action:
+      - uart.write: [0xA0, 0x04, 0x00, 0xA4]
+
+# Switch to start irrigation cicle script
+  - platform: template
+    name: "Avvia ciclo manuale"
+    id: "ciclo"
+    optimistic: true
+    icon: "mdi:reload"
+    turn_on_action:
+    - script.execute: irrigation_cicle
+  
+    turn_off_action:
+    - script.stop: irrigation_cicle
+    - switch.turn_off: relay1
+    - switch.turn_off: relay2
+    - switch.turn_off: relay3
+    - text_sensor.template.publish:
+        id: irrigation_state
+        state: "Ciclo irrigazione interrotto"
+
+output:
+  - platform: template
+    type: binary
+    id: out_1
+    write_action:
+      if:
+        condition:
+          light.is_on: garden_light
+        then:
+          - switch.turn_on: relay4
+        else:
+          - switch.turn_off: relay4
+light:
+  - platform: binary
+    name: "Luce Giardino"
+    id: garden_light
+    output: "out_1"
+
+# Script for irrigation cicle
+#script:
+#  - id: irrigation_cicle
+#    then:
+#    - text_sensor.template.publish:
+#        id: irrigation_state
+#        state: "Ciclo irrigazione avviato"
+#    - delay: 2s
+#    - switch.turn_on: relay1
+#    - delay:  !lambda 'return id(timer_prato).state *60000;'  #we set this in hassio helper, value is in ms so we multiply by 60000
+#    - switch.turn_off: relay1
+#    - wait_until:
+#      - switch.is_off: relay1
+#    - switch.turn_on: relay2
+#    - delay:  !lambda 'return id(timer_siepe).state *60000;'
+#    - switch.turn_off: relay2
+#    - wait_until:
+#      - switch.is_off: relay2
+#    - switch.turn_on: relay3
+#    - delay:  !lambda 'return id(timer_orto).state *60000;'
+#    - switch.turn_off: relay3
+#    - delay: 3s
+#    - text_sensor.template.publish:
+#        id: irrigation_state
+#        state: "Ciclo irrigazione completato"
+#    - switch.turn_off: ciclo

@@ -1,0 +1,13 @@
+esphome:
+  name: $devicename
+  platform: ESP8266
+  board: nodemcuv2
+#  name_add_mac_suffix: true
+  build_path: ./build/$devicename
+
+logger:
+
+i2c:
+  sda: D2  #default D2
+  scl: D1  #default D1
+    #  scan: true  #default true se true non serve l'address
