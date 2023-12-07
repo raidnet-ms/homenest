@@ -1,4 +1,4 @@
-# Sensore stato apertura porta
+# doorlock con switch come output. usato perchè output non funzionava, se riesco a far funzionare output questo si può cancellare
 binary_sensor:
   - platform: gpio
     pin: 

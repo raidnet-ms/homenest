@@ -1,4 +1,4 @@
-# Avvio mandate
+# doorlock sensore porta
 output:
   - platform: gpio
     pin: $door_lock
@@ -20,7 +20,6 @@ lock:
 #        wait_until:
 #          binary_sensor.is_off: doorsensor
         else:
-          
           - output.turn_on: latch
           - delay: 800ms
           - output.turn_off: latch

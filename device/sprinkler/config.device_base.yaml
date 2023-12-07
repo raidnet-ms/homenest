@@ -16,7 +16,7 @@ substitutions:
 # aggiungere i gpio dello sprinkler
 
 
-  board: d1_mini
+  board: d1_mini # inserire la variabile e mettere la substitution nel file principale così ognuno se lo configura sull'hardware che vuole
 
 # Options
   disable_entities: 'true' # disable unnecessary entities by default

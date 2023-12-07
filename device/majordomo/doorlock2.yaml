@@ -1,3 +1,4 @@
+# doorlock mandate con sensore stato serratura e sensore porta
 output:
   - platform: gpio
     pin: $door_lock
