@@ -9,4 +9,4 @@ esp8266:
 
 #packages:
 #  device_base: !include ../device_base.yaml
-#  base: github://raidnet-ms/homenest/common/device_base.yaml@main
+  base: github://raidnet-ms/homenest/common/device_base.yaml@main
