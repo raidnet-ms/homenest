@@ -1,0 +1,40 @@
+substitutions:
+  name: "testdashboarimport"
+  friendly_name: "test dashboard import"
+  disable_entities:  "true" # Disabilitare in blocco entità superflue
+  wifi_ap_timeout: 2min    # default to 2 minute timeout for yaml file as package.
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+esphome:
+  name: "$name"
+  name_add_mac_suffix: true
+  project:
+    name: "papperone.presence-ld2410"
+    version: "0.1.1"
+
+dashboard_import:
+  package_import_url: github://papperone/ESPresenceLD/ESPresenceLD.yaml
+esp32_improv:
+  authorizer: none
+#  status_indicator: onboard_led #vuole un output
+
+improv_serial:
+
+logger:
+
+ota:
+
+captive_portal:
+
+wifi:
+  ssid: MyHomeNetwork
+  password: VerySafePassword
+
+  ap:
+    ap_timeout: $wifi_ap_timeout
+
+api:

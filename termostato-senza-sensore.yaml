@@ -10,7 +10,7 @@ esphome:
 
 packages:
     device_base: !include common/board/esp01s.yaml
-    wifi:     !include common/wifi.yaml
+#    wifi:     !include common/wifi.yaml
 #################################################################
 
 status_led:
@@ -27,7 +27,7 @@ switch:
     
 climate:
     platform: thermostat
-    name: "$upper_devicename"
+    name: Termostato
     sensor: inside_temperature_ns
     default_target_temperature_low: 20 °C
     heat_action:
@@ -44,25 +44,3 @@ sensor:
     id: inside_temperature_ns
     entity_id: sensor.sensore_temperatura_bagno
     internal: true
-      
-#sensor:
-#    platform: dht
-#    model: dht11
-#    pin: 3
-#    temperature:
-#      name: "Sensore temperatura"
-#      id: temp01
-#      unit_of_measurement: "°C"
-#      filters:
-#      - calibrate_linear:
-#          # Map 0.0 (from sensor) to 0.0 (true value)
-#          - 0.0 -> 0.0
-#          - 31.9 -> 21.7
-#    humidity:
-#      name: "Sensore umidità bagno"
-#      filters:
-#      - calibrate_linear:
-#          # Map 0 (from sensor) to 0 (true value)
-#          - 0 -> 0
-#          - 46 -> 63
-#    update_interval: 60s

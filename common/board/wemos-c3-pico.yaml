@@ -3,6 +3,14 @@ substitutions:
   board: lolin_c3_mini
   variant: esp32c3
   light_pin: GPIO7
+  improv_led: GPIO7
+  #JP1_VBAT: GPIO3 #Battery tension. Jumper must be enabled onboard If you use the battery you should also enable onboard led jumper if you wat a charging feedback.
+
+esphome:
+  platformio_options:
+    board_build.f_flash: 40000000L
+    board_build.flash_mode: dio
+    board_build.flash_size: 4MB
 
 # I²C Bus
 i2c:
@@ -13,3 +21,27 @@ i2c:
 
 packages:
   base: !include common-32-idf.yaml
+
+#Setup for the onboard RGB LED to be controlled as a light
+#output:
+#  - platform: ledc
+#    pin: GPIO3
+#    id: onboard_red
+#    max_power: 37%
+#  - platform: ledc
+#    pin: GPIO4
+#    id: onboard_green
+#    max_power: 37%
+#  - platform: ledc
+#    pin: GPIO5
+#    id: onboard_blue
+#    max_power: 37%
+    
+#light:
+#  - platform: rgb
+#    name: "Onboard RGB"
+#    id: onboard_rgb
+#    red: onboard_red
+#    green: onboard_green
+#    blue: onboard_blue
+#    restore_mode: ALWAYS_ON

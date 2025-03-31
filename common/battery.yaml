@@ -2,17 +2,23 @@
 #sensor:
   - platform: adc
     pin: $battery_pin
-    name: "$devicename Battery"
+    name: "$devicename battery level"
     id: battery_voltage
     update_interval: 10s
     device_class: battery
-    accuracy_decimals: 0
+    accuracy_decimals: 1
     attenuation: auto
     filters:
       - sliding_window_moving_average:
           window_size: 15
           send_every: 15
           send_first_at: 1
+      - median: #use moving median to smooth spikes
+          window_size: 10
+          send_every: 10
+          send_first_at: 10
+      - delta: 0.1 #Only send values to HA if they change 
+      - throttle: 30s #Limit values sent to Ha
       - multiply: 1.6
       - lambda: |-
           auto r = ((x - 3) / 0.69 * 100.00);

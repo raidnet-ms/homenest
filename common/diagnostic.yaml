@@ -5,27 +5,27 @@ binary_sensor:
     entity_category: diagnostic
 
 text_sensor:
-#  - <<: !include wifi_signal_bars.yaml  # creare sensore copy invece che text
+# //todo  - <<: !include wifi_signal_bars.yaml  # creare sensore copy invece che text
   - platform: wifi_info
     ip_address:
       name: "IP Address"
-      disabled_by_default: true
+      disabled_by_default: $disable_entities
       entity_category: diagnostic
     ssid:
       name: Connected SSID
-      disabled_by_default: true
+      disabled_by_default: $disable_entities
       entity_category: diagnostic
     bssid:
       name: Connected BSSID
-      disabled_by_default: true
+      disabled_by_default: $disable_entities
       entity_category: diagnostic
     mac_address:
       name: Mac Wifi Address
-      disabled_by_default: true
+      disabled_by_default: $disable_entities
       entity_category: diagnostic
     scan_results:
       name: Latest Scan Results
-      disabled_by_default: true
+      disabled_by_default: $disable_entities
       entity_category: diagnostic
 
 button:
@@ -56,6 +56,7 @@ sensor:
     entity_category: diagnostic
 
   - platform: uptime
+    id: uptime_sensor
     name: "Uptime"
     entity_category: diagnostic
-    disabled_by_default: true
+    disabled_by_default: $disable_entities

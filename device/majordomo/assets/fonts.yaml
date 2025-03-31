@@ -1,0 +1,74 @@
+font:
+  - file: "gfonts://Roboto"
+    id: roboto
+    size: 12
+  - file: 'common/fonts/arial.ttf'
+    id: font3
+    size: 12 
+  - file: 'common/fonts/materialdesignicons-webfont.ttf'
+    id: icon_font
+    size: 32
+    glyphs: [
+      "\U000F078F", # mdi-alarm-light
+      "\U000F0BEA", # mdi-alarm-light-outline
+      "\U000F0237", # mdi-fingerprint
+      "\U000F0EB1", # mdi-fingerprint-off
+      "\U000F07AE", # mdi-cctv
+      "\U000F02DC", # mdi-home
+      "\U000F0CCB", # mdi-home-outline
+      "\U000F0498", # mdi-shield                    armed_away
+      "\U000F0499", # mdi-shield-outline
+      "\U000F088F", # mdi-shield-account            armed_home
+      "\U000F0A12", # mdi-shield-account-outline
+      "\U000F0ECC", # mdi-shield-alert
+      "\U000F0ECD", # mdi-shield-alert-outline      arming
+      "\U000F0565", # mdi-shield-check              pending
+      "\U000F0CC8", # mdi-shield-check-outline
+      "\U000F0780", # mdi-shield-half-full          armed_night
+      "\U000F0BC4", # mdi-shield-key                
+      "\U000F0BC5", # mdi-shield-key-outline
+      "\U000F099E", # mdi-shield-off                disarmed
+      "\U000F099C", # mdi-shield-off-outline        disarming
+      "\U000F113B", # mdi-shield-star               armed_vacation
+      "\U000F113C", # mdi-shield-star-outline
+      "\U000F099D", # mdi-shield-lock
+      "\U000F0CCC", # mdi-shield-lock-outline
+      "\U000F1167", # mdi-police-badge
+      "\U000F1168", # mdi-police-badge-outline
+      "\U000F033F", # mdi-lock-open                 unlocked
+      "\U000F0340", # mdi-lock-open-outline         unlocking
+      "\U000F033E", # mdi-lock
+      "\U000F0341", # mdi-lock-outline
+      "\U000F139C", # mdi-lock-check                triggered
+      "\U000F08EE", # mdi-lock-alert-outline        jammed
+      "\U000F081C", # mdi-door-open                   door open
+      "\U000F081B", # mdi-door-closed                   door closed
+      "\U000F0FC4", # mdi-location-enter
+      "\U000F0FC5", # mdi-location-exit             armed_custom_bypass
+      "\U000F009E", # mdi-bell-ring                 usare per campanello
+      "\U000F009F", # mdi-bell-ring-outline
+      "\U000F05A9", # mdi-wifi                      wifi
+      "\U000F05AA", # mdi-wifi-off                  wifi-off
+      "\U000F051F", # mdi-timer-sand                clessidra provare a usare mdi-spin per farla rotare
+      "\U000F0398", # mdi-nfc-variant               nfc chip
+      "\U000F0E54", # mdi-nfc-variant-off           nfc chip error
+      "\U000F0397", # mdi-nfc-tap                   nfc tap
+      "\U000F0208", # mdi-cog-clockwise  oppure usare mdi-cog-sync                ota update
+      "\U000F0CBD", # mdi-progress-wrench           ota update begin
+      "\U000F0997", # mdi-progress-download         ota update progress
+      "\U000F0995", # mdi-progress-check            ota update end
+      "\U000F0CBC", # mdi-progress-alert            ota update alert
+      ]
+
+  - file: 'common/fonts/materialdesignicons-webfont.ttf'
+    id: icon_font_small
+    size: 10
+    glyphs: [
+      "\U000F033F", # mdi-lock-open            pending
+      "\U000F0340", # mdi-lock-open-outline    disarming
+      "\U000F033E", # mdi-lock
+      "\U000F0341", # mdi-lock-outline
+      "\U000F139C", # mdi-lock-check           triggered
+      "\U000F05A9", # mdi-wifi                      wifi connected
+      "\U000F05AA", # mdi-wifi-off                  wifi disconnected
+      ]

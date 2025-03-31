@@ -5,16 +5,17 @@ substitutions:
   project_name: raidnet.sw
   project_version: 1.0.0
   board: nodemcuv2
+  disable_entities:  "true" # Disabilitare in blocco entità superflue
 
 packages:
 # Local Common Packages
   board: !include common/board/common-8266.yaml
 
 
-status_led:
-  pin: 
-    number: D4 #GPIO2
-    inverted: true
+#status_led:
+#  pin: 
+#    number: D4 #GPIO2
+#    inverted: true
 
 switch:
   - platform: gpio

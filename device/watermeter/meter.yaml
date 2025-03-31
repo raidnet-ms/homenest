@@ -1,0 +1,45 @@
+number: 
+  - platform: template
+    name: Valore contatore
+    unit_of_measurement: 'm³'
+    device_class: water
+    entity_category: config
+    min_value: 0
+    max_value: 1000000
+    step: 1
+    optimistic: true #sostituire con set action e usare la variabile nella lambda per aggiungere il valore di metri cubi al contatore.
+
+sensor:
+  - platform: pulse_counter
+    state_class: measurement
+    name: "Flusso Acqua Istantaneo"
+    id: flusso_acqua
+    pin: GPIO2
+    update_interval: 1s
+    filters:
+    - lambda: return (x / 400.0); #Flow pulse: F=(6.68Q)±5% with Q=L/min #provare  x / 396 se è più preciso
+    unit_of_measurement: "L/min"
+
+# Volume totale in metri cubi
+  - platform: integration
+    device_class: water
+    state_class: total_increasing
+    name: "Consumo Totale Acqua in m³"
+    unit_of_measurement: 'm³'
+    accuracy_decimals: 4
+    sensor: flusso_acqua
+    time_unit: min
+    icon: "mdi:water"
+    filters:
+        - lambda: return (x / 1000);
+
+# Volume totale in litri
+  - platform: integration
+    device_class: water
+    state_class: total_increasing
+    name: "Consumo Totale Acqua in litri"
+    unit_of_measurement: 'L'
+    accuracy_decimals: 2
+    sensor: flusso_acqua
+    time_unit: min
+    icon: "mdi:water"

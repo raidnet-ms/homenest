@@ -4,7 +4,7 @@ substitutions:
   project_name: raidnet.majordomo
   project_version: 1.0.0
   log_level: debug
-  onboard_led: GPIO16 #è 16 il pin del led
+  disable_entities:  "true"
 
 
 

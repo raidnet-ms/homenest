@@ -1,0 +1,4 @@
+packages:
+  config: !include config.watermeter.yaml
+  valve: !include valve.yaml
+  meter: !include meter.yaml

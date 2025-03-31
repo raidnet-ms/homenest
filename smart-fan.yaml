@@ -9,12 +9,12 @@ esphome:
 
 packages:
     device_base: !include common/board/esp01s.yaml
-    wifi:     !include common/wifi.yaml
+#    wifi:     !include common/wifi.yaml
 #################################################################
 # OnBoard Led su pin 2
 button:
   - platform: restart
-    name: "Riavvia $upper_devicename"
+    name: Riavvia
     entity_category: config
 
 status_led:
@@ -29,7 +29,7 @@ sensor:
     pin:
       number: 3
     humidity:
-      name: "Umidita $devicename"
+      name: Umidità
       on_value_range:
         - above: 65.0
           then:
@@ -38,11 +38,11 @@ sensor:
           then:
             - fan.turn_off: smartfan
     temperature:
-      name: "Temperatura $devicename"
+      name: Temperatura
 
 number:
   - platform: template
-    name: $upper_devicename timer
+    name: timer
     step: 1
     min_value: 0
     max_value: 60
@@ -88,5 +88,5 @@ binary_sensor:
 fan:
   platform: binary
   output: fanoutput
-  name: "$upper_devicename"
+  name: Ventola
   id: smartfan

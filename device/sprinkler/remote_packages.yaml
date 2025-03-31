@@ -1,0 +1,12 @@
+packages:
+#  device: !include device/sprinkler/packages.yaml
+  sprinkler:
+    url: https://github.com/raidnet-ms/homenest
+    files:
+      - device/sprinkler/boot.device.yaml
+      - device/sprinkler/buttons.device.yaml
+      - device/sprinkler/config.device.yaml
+      - device/sprinkler/packages.yaml
+      - device/sprinkler/switch_bistable_gpio.yaml
+    ref: main  # optional
+    refresh: 1h  # optional

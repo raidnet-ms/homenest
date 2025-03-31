@@ -1,0 +1,40 @@
+esphome:
+  on_boot:
+#    priority: 800
+#    then:
+      - display.page.show: boot
+      - delay: 2s
+      - display.page.show: connection
+      - wait_until:
+          condition:
+            wifi.connected:
+          timeout: 12s
+      - delay: 2s
+      - display.page.show: home #volendo creare anche pagina per api connection
+#            api.connected:
+#          timeout: 10s
+#          api.connected:
+#          binary_sensor.is_on: connection_status
+
+
+# //todo implementare nuova gestione display con script
+#      priority: 600
+#      then: 
+#        - script.execute: draw_display
+#        - delay: 30s
+#        - if:
+#            condition:
+#              lambda: return id(init_in_progress);
+#            then:
+#              - lambda: id(init_in_progress) = false;
+#              - script.execute: draw_display
+
+
+      - logger.log: Device is connected!
+      - rtttl.play: "two short:d=4,o=5,b=100:16e6,16e6"
+
+#       on_loop:
+#      wifi.connected: false
+#    - display.page.show: connection
+  on_shutdown:
+    - display.page.show: boot

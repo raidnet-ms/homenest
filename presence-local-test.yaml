@@ -7,7 +7,7 @@ substitutions:
 esphome:
   name: "$name"
 #  name_add_mac_suffix: true
-  build_path: ./build/${name}
+#  build_path: ./build/${name} # già è default
   project:
     name: "papperone.presence-ld2410"
     version: "0.1.1"

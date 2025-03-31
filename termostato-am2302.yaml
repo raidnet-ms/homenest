@@ -9,7 +9,7 @@ esphome:
 
 packages:
     device_base: !include common/board/esp01s.yaml
-    wifi:     !include common/wifi.yaml
+#    wifi:     !include common/wifi.yaml
 #################################################################
 
 status_led:

@@ -1,0 +1,4 @@
+esphome:
+  on_boot:
+    - sprinkler.shutdown: giardino
+#    - switch.turn_off: solenoid_D # Gpio used for this pin is high on boot so i need to turn it off in case of hardware reboot.

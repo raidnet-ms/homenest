@@ -5,11 +5,11 @@ packages:
   buzzer:  !include ../../common/buzzer.yaml
 
 # Device packages
-  device_base:  !include config.device_base.yaml
-  boot:  !include boot.device.yaml
-  config:  !include config.device.yaml
-#  gpio:  !include device.gpio.yaml   # inserito in config.device_base
-  display:  !include display.device.yaml
+  config:  !include config.majordomo.yaml
+  boot:  !include boot.majordomo.yaml
+  settings:  !include settings.majordomo.yaml
+#  gpio:  !include device.gpio.yaml   # inserito in config.majordomo
+  display:  !include display.majordomo.yaml
   lock:     !include doorlock2.yaml
   doorsensor: !include doorsensor.yaml
   bell:     !include bell.yaml #controllare pin usato, cercarne uno libero

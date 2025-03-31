@@ -1,0 +1,65 @@
+# SDA pin8
+# SCL pin2
+
+# pin2 pin1 pin0 pin4 (in basso)
+# pin5 pin6 motor interlock 12v
+
+# 3 7 5 6 get also 12v
+
+# GPIO5 GPIO6 gestiscono interlock per valvola
+# 2, 1, 0, 4 gpio in basso
+#3, 5, 6 pin liberi + tx e rx
+
+substitutions:
+  project_name: raidnet.watermeter
+  project_version: 1.0.0
+
+  name: watermeter
+  friendly_name: Contatore acqua
+# Options
+  disable_entities: 'true' # disable unnecessary entities by default
+  log_level: debug
+
+# Setting
+# creare un helper che conserva il valore di allarme allagamento. on boot verificare se l'allarme è attivato o meno. se attivo chiudere la valvola. conservare last state della valvola.
+
+
+
+#external_components:
+#    - source: github://pr#5008
+#      components: [esp32_ble]
+
+
+light:
+  - platform: esp32_rmt_led_strip
+    rgb_order: GRB
+    pin: $light_pin
+    num_leds: 1
+    rmt_channel: 0
+    chipset: ws2812
+    name: "Onboard Led"
+
+    effects:
+      - pulse:
+          name: "Slow Pulse"
+        # transition_length: 1s      # defaults to 1s
+          update_interval: 2s
+
+
+#per testare provare a collegare la 12v del motore con la 12v in input e creare un sensore binario
+binary_sensor:
+#  - platform: gpio
+#    pin: GPIO3
+#    name: "Sensore 3 input 12v"
+
+#  - platform: gpio
+#    pin: GPIO5 #testare 3-5-6-7
+#    name: "Sensore 5 input 12v"
+
+#  - platform: gpio
+#    pin: GPIO6 #testare 3-5-6-7
+#    name: "Sensore 6 input 12v"
+
+#  - platform: gpio
+#    pin: GPIO7 #testare 3-5-6-7
+#    name: "Sensore 7 input 12v"

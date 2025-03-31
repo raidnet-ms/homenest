@@ -6,26 +6,36 @@ substitutions:
 
   board: esp8285
   log_level: DEBUG
-# GPIO
-# Device substitutions
+
+  wifi_ssid: !secret wifi_ssid
+  wifi_password: !secret wifi_password
+  api_key: !secret api_key
+  ota_password: !secret ota_password
+
+
+# General options (Device substitutions)
+  disable_entities:  "true" # Disabilitare in blocco entità superflue
+
+# Device options (Device substitutions)
   button_toggle: "true"
   led_restore_mode: RESTORE_DEFAULT_OFF #ALWAYS_OFF
   number_of_leds: '29'
   led_rgb_order: GRB
-  led_chipset: WS2812
+  led_chipset: WS2812x
   
 #  restore_from_flash: true #vedere dove conviene mettere il valore, se qui oppure in common-8266
+#preferences:
+#  flash_write_interval: 1min
+packages:
+  device_base: !include common/board/common-8266.yaml
 
-esp8266:
+
+#esp8266: #abilitare per retrocompatibilità con fastled
 #  framework:
 #    version: 2.7.4
 
-logger:
-  baud_rate: 0
-
-
-packages:
-  device_base: !include common/board/common-8266.yaml
+logger: !remove
+#  baud_rate: 0
 
 
 binary_sensor:
@@ -35,7 +45,6 @@ binary_sensor:
       mode: INPUT_PULLUP
       inverted: true
     name: "Power Button"
-    disabled_by_default: true
     on_multi_click:
       - timing:
           - ON for at most 1s
@@ -46,7 +55,6 @@ binary_sensor:
           - ON for at least 4s
         then:
           - button.press: Reset
-
 
 button:
   - platform: factory_reset
@@ -83,7 +91,7 @@ light:
 #          progress_interval: 4ms
       - addressable_random_twinkle:
 #      - addressable_fireworks:
-      - addressable_flicker:
+#      - addressable_flicker:
       - flicker:
 #          name: Flicker Effect With Custom Values
 #          alpha: 95%

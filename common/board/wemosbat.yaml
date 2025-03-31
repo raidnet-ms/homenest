@@ -1,5 +1,6 @@
 substitutions:
   board: wemosbat
+#  onboard_led: GPIO16 #è 16 il pin del led usato per improv_bt
 #  variant: esp32 # Non serve se la board è riconosciuta
 
 packages:
@@ -10,9 +11,12 @@ packages:
 #  status_indicator: onboard_led  #1 extra LED could be programmed(Connected with GPIO16[D0]) magari per improv bt
 
 output:
+#  - platform: status_led
+#    pin: $onboard_led
+#    id: onboard_led
   - platform: gpio
-    pin: $onboard_led
-    id: onboard_led
+    pin: GPIO16
+    id: improv_led
 
 #uart:
 #  rx_pin: GPIO3

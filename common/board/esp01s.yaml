@@ -3,7 +3,7 @@ esphome:
   platform: ESP8266
   board: esp01_1m
 #  name_add_mac_suffix: true
-  build_path: ./build/$devicename
+#  build_path: ./build/$devicename
 
 # Enable logging
 logger:

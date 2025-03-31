@@ -1,36 +1,45 @@
-esphome:
-  name: '$name'
-  friendly_name: '$friendly_name'
-#  comment: $comment
-  build_path: ./build/$name
-  project:
-    name: '$project_name'
-    version: '$project_version' #1.0.0
-# name_add_mac_suffix: true
-
-# Enable logging
-logger:
-  level: '$log_level'
-
-captive_portal:
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-
-#in caso di mofidica al devicename impostare il vecchio nome al primo update
-#  use_address: ikea-airq.local
-# Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    password: "12345678" # verificare su dashboard import se serve
-
-api:
-# la dashboard import carica una key univoca per ogni device. testare se posso eliminare le voci di api
-  encryption:
-    key:  !secret api_key
-ota: # con dasboard import dovrebbe essere in teoria vuoto
-  password: !secret ota_password
+substitutions: # Add substitutions to local config and secret variable in secrets.yaml. So these values will be overwritten by your configuration.
+  wifi_ssid: "default_ssid"
+  wifi_password: "default_password"
+  ap_password: "12345678"
+  api_key: "wZJ5F6zY7T9w6Bz9yM7k6Jj8dQ5sP2B4nZrC5qX8kYc=" #default value, you should set a custom value when importing a device.
 
 # Common packages
 packages:
   diagnostic: !include diagnostic.yaml
+
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+#  comment: $comment
+#  build_path: ./build/$name # Already default path
+#  preferences:
+#    flash_write_interval: 1min #default 1min
+  project:
+    name: ${project_name}
+    version: "${project_version}" #1.0.0
+# name_add_mac_suffix: true
+
+# Enable logging
+logger:
+  level: ${log_level}
+
+captive_portal:
+
+wifi:
+  ssid: $wifi_ssid
+  password: $wifi_password
+
+### In caso di mofidica al devicename impostare il vecchio nome al primo update
+#  use_address: mdnsname.local
+# Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    password: $ap_password
+
+api:
+### //la dashboard import carica una key univoca per ogni device.
+  encryption:
+    key:  $api_key
+ota: # //todo con dasboard import dovrebbe essere in teoria vuoto
+  - platform: esphome
+    password: $ota_password

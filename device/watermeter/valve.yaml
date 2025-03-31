@@ -1,0 +1,31 @@
+switch:
+  - platform: gpio
+    pin: GPIO5
+#    name: "Open Valve"
+    id: open_valve_switch
+    interlock: [close_valve_switch]
+
+  - platform: gpio
+    pin: GPIO6
+#    name: "Close Valve"
+    id: close_valve_switch
+    interlock: [open_valve_switch]
+
+
+valve:
+  - platform: template
+    name: "Valvola ingresso"
+#    lambda: |-
+#      if (id(top_end_stop).state) {
+#        return VALVE_OPEN;
+#      } else {
+#        return VALVE_CLOSED;
+#      }
+    open_action:
+      - switch.turn_on: open_valve_switch
+    close_action:
+      - switch.turn_on: close_valve_switch
+#    stop_action:
+#      - switch.turn_on: stop_valve_switch
+    optimistic: true
+    device_class: water
