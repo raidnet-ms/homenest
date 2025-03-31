@@ -17,7 +17,7 @@ packages:
 #  board: !include common/board/d1_mini.yaml
 #  aqi: !include common/sensor/aqi.yaml
 
-remote_packages:
+packages:
   board: github://raidnet-ms/homenest/common/board/d1_mini.yaml
 #  base: github://raidnet-ms/homenest/common/device_base.yaml@main
   aqi: github://raidnet-ms/homenest/common/sensor/aqi.yaml
