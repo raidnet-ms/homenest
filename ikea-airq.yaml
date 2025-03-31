@@ -18,6 +18,7 @@ substitutions:
 
 remote_packages:
   board: github://raidnet-ms/homenest/common/board/d1_mini.yaml
+  base: github://raidnet-ms/homenest/common/device_base.yaml@main
   aqi: github://raidnet-ms/homenest/common/sensor/aqi.yaml
 
 i2c: # used by ccs811 and sht3xd
