@@ -11,10 +11,10 @@ substitutions:
   api_key: !secret api_key
   ota_password: !secret ota_password
 
-packages:
+#packages:
 # Local Common Packages
 #  board: !include common/board/d1_mini.yaml
-  aqi: !include common/sensor/aqi.yaml
+#  aqi: !include common/sensor/aqi.yaml
 
 remote_packages:
   board: github://raidnet-ms/homenest/common/board/d1_mini.yaml
