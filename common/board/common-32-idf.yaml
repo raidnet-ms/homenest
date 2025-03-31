@@ -8,8 +8,8 @@ esp32:
     sdkconfig_options:
       CONFIG_COMPILER_OPTIMIZATION_SIZE: y
     # Advanced tweaking options
-    advanced:
-      ignore_efuse_mac_crc: false
+#    advanced:
+#      ignore_efuse_mac_crc: false
 
 improv_serial:
 #  next-url: http://example.com/?device_name={{device_name}}&ip_address={{ip_address}}&esphome_version={{esphome_version}}
@@ -17,7 +17,7 @@ improv_serial:
 
 esp32_improv:
   authorizer: none
-#  status_indicator: led
+#  status_indicator: improv_led
 
 packages:
   device_base: !include ../device_base.yaml
