@@ -22,8 +22,9 @@ packages:
 # Local Common Packages
 #  base: !include common/device_base.yaml
 # Remote Packages
+
   board: github://raidnet-ms/homenest/common/board/d1_mini.yaml
-  base: github://raidnet-ms/homenest/common/device_base.yaml@main
+
 
   device: github://raidnet-ms/homenest/device/ikea_aq_hack/ikea_aq.yaml
 

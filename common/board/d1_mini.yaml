@@ -10,4 +10,4 @@ substitutions:
 
 packages:
 #  base: !include common-8266.yaml
-  base: github://raidnet-ms/homenest/common/board/common-8266.yaml@main
+  chip: github://raidnet-ms/homenest/common/board/common-8266.yaml@main
