@@ -5,8 +5,8 @@ substitutions: # Add substitutions to local config and secret variable in secret
   api_key: "wZJ5F6zY7T9w6Bz9yM7k6Jj8dQ5sP2B4nZrC5qX8kYc=" #default value, you should set a custom value when importing a device.
 
 # Common packages
-packages:
-  diagnostic: github://raidnet-ms/homenest/common/diagnostic.yaml@main
+#packages:
+#  diagnostic: github://raidnet-ms/homenest/common/diagnostic.yaml@main
 
 esphome:
   name: ${name}

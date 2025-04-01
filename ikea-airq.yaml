@@ -24,7 +24,9 @@ packages:
 # Remote Packages
 
   board: github://raidnet-ms/homenest/common/board/d1_mini.yaml
-
-
+  chip: github://raidnet-ms/homenest/common/board/common-8266.yaml@main
+  base: github://raidnet-ms/homenest/common/device_base.yaml@main
+  diagnostic: github://raidnet-ms/homenest/common/diagnostic.yaml@main
   device: github://raidnet-ms/homenest/device/ikea_aq_hack/ikea_aq.yaml
+  aqi: github://raidnet-ms/homenest/common/sensor/aqi.yaml
 
