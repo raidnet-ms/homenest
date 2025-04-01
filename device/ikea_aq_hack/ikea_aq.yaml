@@ -1,3 +1,6 @@
+packages:
+  aqi: github://raidnet-ms/homenest/common/sensor/aqi.yaml
+
 i2c: # used by ccs811 and sht3xd
   sda: D2
   scl: D1
