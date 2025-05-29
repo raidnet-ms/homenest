@@ -16,7 +16,6 @@ switch:
     id: wake
     restore_mode: ALWAYS_ON # Must be on on boot to retrieve data
 
-
 uart: # used by pm1006 only rx needed
   rx_pin: D7
   baud_rate: 9600
@@ -65,7 +64,7 @@ sensor:
         - heartbeat: 60s
     temperature: temp
     humidity: hum
-    baseline: 0xBFBD
+    baseline: 0xBFBD # Valore di calibrazione
 
   # Ikea Vindriktning PM2.5 sensor
   - platform: pm1006
