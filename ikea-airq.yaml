@@ -11,7 +11,8 @@ substitutions:
   api_key: !secret api_key
   ota_password: !secret ota_password
 
-#packages:
+
+packages:
 # Local Common Packages
 #  base: !include common/device_base.yaml
 #  board: !include common/board/d1_mini.yaml

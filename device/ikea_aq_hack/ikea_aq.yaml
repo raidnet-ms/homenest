@@ -2,8 +2,9 @@
 #  aqi: github://raidnet-ms/homenest/common/sensor/aqi.yaml
 substitutions:
   comment: Commento device
-  project_name: Ikea AQ Hack
+  project_name: raidnet.aq
   project_version: 1.0.0
+
 
 i2c: # used by ccs811 and sht3xd
   sda: D2
