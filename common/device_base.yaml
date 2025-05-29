@@ -11,13 +11,13 @@ substitutions: # Add substitutions to local config and secret variable in secret
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
-#  comment: $comment
+  comment: ${comment}
 #  build_path: ./build/$name # Already default path
 #  preferences:
 #    flash_write_interval: 1min #default 1min
   project:
     name: ${project_name}
-    version: "${project_version}" #1.0.0
+    version: ${project_version} #1.0.0
 # name_add_mac_suffix: true
 
 # Enable logging
