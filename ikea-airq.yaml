@@ -3,6 +3,7 @@ substitutions:
   friendly_name: Ikea air quality
   project_name: raidnet.aq
   project_version: 1.0.0
+  comment: comment
 
   log_level: debug
   disable_entities:  'true' # Disabilitare in blocco entità superflue
