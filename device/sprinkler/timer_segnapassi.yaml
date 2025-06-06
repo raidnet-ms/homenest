@@ -10,5 +10,3 @@ number:
     unit_of_measurement: s
     icon: mdi:timer
     entity_category: config
-
-    
