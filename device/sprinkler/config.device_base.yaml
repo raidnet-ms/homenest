@@ -19,6 +19,7 @@ substitutions:
   zonename_C: C - Orto
   zonename_D: D - Prato
 
+
 # Device GPIO
   light_pin: GPIO1
 # aggiungere i gpio dello sprinkler
