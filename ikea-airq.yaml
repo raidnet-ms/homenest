@@ -1,11 +1,11 @@
 substitutions:
   name: ikea-airq
   friendly_name: Ikea air quality
-#  project_name: raidnet.aq
-#  project_version: 1.0.0
-#  log_level: debug
-  disable_entities:  "true" # Disabilitare in blocco entità superflue
+  project_name: raidnet.aq
+  project_version: 1.0.0
 
+  log_level: debug
+  disable_entities:  'true' # Disabilitare in blocco entità superflue
   wifi_ssid: !secret wifi_ssid
   wifi_password: !secret wifi_password
   api_key: !secret api_key
@@ -13,14 +13,6 @@ substitutions:
 
 
 packages:
-# Local Common Packages
-#  base: !include common/device_base.yaml
-#  board: !include common/board/d1_mini.yaml
-#  aqi: !include common/sensor/aqi.yaml
-#  chip: !include common/board/common-8266.yaml
-#  diagnostic: !include common/diagnostic.yaml
-#  device: !include device/ikea_aq_hack/ikea_aq.yaml
-
 # Common Remote Packages
   base: github://raidnet-ms/homenest/common/device_base.yaml@main
   chip: github://raidnet-ms/homenest/common/board/common-8266.yaml@main

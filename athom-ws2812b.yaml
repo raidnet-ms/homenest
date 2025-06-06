@@ -3,6 +3,7 @@ substitutions:
   friendly_name: "Strip"
   project_name: "athom.ws2812b"
   project_version: "1.1"
+  comment: comment
 
   board: esp8285
   log_level: DEBUG
@@ -27,14 +28,22 @@ substitutions:
 #preferences:
 #  flash_write_interval: 1min
 packages:
-  device_base: !include common/board/common-8266.yaml
+  base: github://raidnet-ms/homenest/common/device_base.yaml@main
+  chip: github://raidnet-ms/homenest/common/board/common-8266.yaml@main
+
+esphome:
+  platformio_options:
+    board_upload.flash_size: 2MB
+    board_upload.maximum_size: 2097152
 
 
-#esp8266: #abilitare per retrocompatibilità con fastled
+esp8266: #abilitare per retrocompatibilità con fastled
+  board: esp01_1m
+  restore_from_flash: true
 #  framework:
 #    version: 2.7.4
 
-logger: !remove
+#logger: !remove
 #  baud_rate: 0
 
 

@@ -5,15 +5,15 @@ substitutions:
   friendly_name: Irrigatore
   project_name: raidnet.alligator
   project_version: 1.0.0
+
   disable_entities: 'true'
   log_level: debug
+
   light_pin: GPIO1
   zonename_A: A - Null
   zonename_B: B - Siepe
   zonename_C: C - Orto
   zonename_D: D - Prato
-
-#  board: d1_mini
 
 ####################################################
 #dashboard_import:
@@ -21,6 +21,19 @@ substitutions:
 #  import_full_config: false # or true
 
 packages:
+# Common Remote Packages
+  base: github://raidnet-ms/homenest/common/device_base.yaml@main
+  chip: github://raidnet-ms/homenest/common/board/common-8266.yaml@main
+  board: github://raidnet-ms/homenest/common/board/d1_mini.yaml
+  diagnostic: github://raidnet-ms/homenest/common/diagnostic.yaml@main
+
+# Device Packages
+  boot: github://raidnet-ms/homenest/device/sprinkler/boot.device.yaml@main
+  boot: github://raidnet-ms/homenest/device/sprinkler/sprinkler.yaml@main
+  boot: github://raidnet-ms/homenest/device/sprinkler/buttons.device.yaml@main
+  boot: github://raidnet-ms/homenest/device/sprinkler/config.device_base.yaml@main
+  boot: github://raidnet-ms/homenest/device/sprinkler/boot.device.yaml@main
+
 #  device: !include device/sprinkler/packages.yaml
   device:
     url: https://github.com/raidnet-ms/homenest

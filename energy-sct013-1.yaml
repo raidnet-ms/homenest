@@ -1,10 +1,12 @@
 substitutions:
   name: energy-sct013-1
   friendly_name: energy
-  log_level: DEBUG #debug
   project_name: raidnet.energy
   project_version: 1.0.0
+  comment: comment
 
+  disable_entities: 'true' # Disabilitare in blocco entità superflue
+  log_level: debug
   wifi_ssid: !secret wifi_ssid
   wifi_password: !secret wifi_password
   api_key: !secret api_key
@@ -14,13 +16,16 @@ substitutions:
   status_led: D4
   gpio_network_led: D5
 # Device substitutions
-  disable_entities:  "true" # Disabilitare in blocco entità superflue
   update_time: never
   ic1Volts: "240"
 
 
 packages:
-  board: !include common/board/d1_mini.yaml
+# Common Remote Packages
+  base: github://raidnet-ms/homenest/common/device_base.yaml@main
+  chip: github://raidnet-ms/homenest/common/board/common-8266.yaml@main
+  board: github://raidnet-ms/homenest/common/board/d1_mini.yaml
+  diagnostic: github://raidnet-ms/homenest/common/diagnostic.yaml@main
 
 #sistemare secondo led sulla board led rosso per api connect
 #on_boot:
@@ -41,7 +46,6 @@ light:
     id: network_state
 #    name: "Network state"
     pin: $gpio_network_led
-
 
 time:
   - platform: homeassistant

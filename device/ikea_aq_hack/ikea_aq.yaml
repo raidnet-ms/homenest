@@ -5,7 +5,6 @@ substitutions:
   project_name: raidnet.aq
   project_version: 1.0.0
 
-
 i2c: # used by ccs811 and sht3xd
   sda: D2
   scl: D1
