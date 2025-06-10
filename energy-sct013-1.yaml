@@ -17,7 +17,7 @@ substitutions:
   gpio_network_led: D5
 # Device substitutions
   update_time: never
-  ic1Volts: "240"
+  ic1Volts: "230"
 
 
 packages:
