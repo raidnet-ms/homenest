@@ -1,12 +1,12 @@
 button:
   - platform: template
-    name: Segnapassi a tempo
-    id: light_button
-    icon: mdi:lightbulb-on
-    on_press:
-      - light.turn_on: light1
-      - delay: !lambda return id(timer_light).state *600;
-      - light.turn_off: light1
+#    name: Segnapassi a tempo
+#    id: light_button
+#    icon: mdi:lightbulb-on
+#    on_press:
+#      - light.turn_on: light1
+#      - delay: !lambda return id(timer_light).state *600;
+#      - light.turn_off: light1
 #  output: light_output
 #  duration: 60s
 #    - light.turn_off: light1
