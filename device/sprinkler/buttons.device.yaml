@@ -1,5 +1,5 @@
 button:
-  - platform: template
+#  - platform: template
 #    name: Segnapassi a tempo
 #    id: light_button
 #    icon: mdi:lightbulb-on
