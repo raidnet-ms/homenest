@@ -35,3 +35,4 @@ switch:
   - platform: gpio
     id: d_off
     pin: D4
+    
