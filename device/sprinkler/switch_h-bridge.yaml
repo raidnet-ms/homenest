@@ -1,0 +1,9 @@
+#da implementare
+switch:
+  - platform: hbridge
+    id: h-bridge1
+#    name: "H-Bridge" # Non deve comparire tra gli switch di attivazione poiché le valvole devono essere controllate tramite le Zone.
+    on_pin: D8
+    off_pin: D7
+    pulse_length: 50ms
+    wait_time: 50ms

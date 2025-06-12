@@ -72,9 +72,9 @@ sprinkler:
           id: timer_A
           restore_value: true
           unit_of_measurement: min
-#        valve_switch_id: valve_A
-        valve_on_switch_id: a_on
-        valve_off_switch_id: a_off
+        valve_switch_id: h-bridge1
+#        valve_on_switch_id: a_on
+#        valve_off_switch_id: a_off
       - valve_switch: "Avvia $zonename_B"
         enable_switch: "Abilita $zonename_B"
 #        icon: mdi:sprout
