@@ -1,14 +1,14 @@
 switch:
 #GPIO OUTPUT
 # valve_A
-  - platform: gpio
-    id: a_on
-    pin: D8
+#  - platform: gpio
+#    id: a_on
+#    pin: D8
 #    inverted: true #unico invertito perchè al boot deve essere low
 #    mode: OUTPUT #vedere se questo aiuta a tenere il pin su low al boot. dovrebbe bastare occorre però aggiungere un diodo su tutti i pin per evitare il ritorno della corrente
-  - platform: gpio
-    id: a_off
-    pin: D7
+#  - platform: gpio
+#    id: a_off
+#    pin: D7
 #    inverted: true
 # valve_B
   - platform: gpio
