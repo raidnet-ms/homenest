@@ -28,17 +28,28 @@ substitutions:
 
 packages:
 # Common Remote Packages
-  base: github://raidnet-ms/homenest/common/device_base.yaml@main
-  chip: github://raidnet-ms/homenest/common/board/common-8266.yaml@main
-  board: github://raidnet-ms/homenest/common/board/d1_mini.yaml
-  diagnostic: github://raidnet-ms/homenest/common/diagnostic.yaml@main
+  remote_package:
+    url: https://github.com/raidnet-ms/homenest/
+    ref: main
+    refresh: 1s
+    files: 
+      - common/device_base.yaml
+      - common/board/common-8266.yaml
+      - common/board/d1_mini.yaml
+      - common/diagnostic.yaml
+#  base: github://raidnet-ms/homenest/common/device_base.yaml@main
+#  chip: github://raidnet-ms/homenest/common/board/common-8266.yaml@main
+#  board: github://raidnet-ms/homenest/common/board/d1_mini.yaml
+#  diagnostic: github://raidnet-ms/homenest/common/diagnostic.yaml@main
 
 # Device Packages
   boot: github://raidnet-ms/homenest/device/sprinkler/boot.device.yaml@main
   buttons: github://raidnet-ms/homenest/device/sprinkler/buttons.device.yaml@main
-  config_device: github://raidnet-ms/homenest/device/sprinkler/config.device_base.yaml@main
+#  config_device: github://raidnet-ms/homenest/device/sprinkler/config.device_base.yaml@main
+  device: !include device/sprinkler/config.device_base.yaml
 #  sprinkler: github://raidnet-ms/homenest/device/sprinkler/config.device_base.yaml@main
-  solenoid: github://raidnet-ms/homenest/device/sprinkler/switch_bistable_gpio.yaml@main
+#  solenoid: github://raidnet-ms/homenest/device/sprinkler/switch_bistable_gpio.yaml@main
+  solenoid: !include device/sprinkler/switch_bistable_gpio.yaml
   solenoid2: !include device/sprinkler/switch_h-bridge.yaml
 #  solenoid2: github://raidnet-ms/homenest/device/sprinkler/switch_h-bridge.yaml@main
 #  segnapassi: github://raidnet-ms/homenest/device/sprinkler/timer_segnapassi.yaml@main

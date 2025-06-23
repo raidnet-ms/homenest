@@ -14,9 +14,10 @@ substitutions:
 
 # GPIO
   status_led: D4
-  gpio_network_led: D5
+  gpio_board_led: D5
 # Device substitutions
-  update_time: never
+  update_time: never #comanda lo script quando aggiornare 5s # must be > (pin_set_delay+component_update_delay*2) * channels
+  update_time_watt: 10s
   ic1Volts: "230"
 
 
@@ -43,9 +44,10 @@ status_led:
 light:
   - platform: status_led
     entity_category: config
-    id: network_state
+    id: ct_led
 #    name: "Network state"
-    pin: $gpio_network_led
+    output: ct_led_output
+    restore_mode: ALWAYS_OFF    
 
 time:
   - platform: homeassistant
@@ -56,6 +58,9 @@ time:
 #......then tells CT# to update.........
 #.......................................
 output:
+  - platform: gpio
+    pin: $gpio_board_led
+    id: ct_led_output
   - platform: gpio
     pin: D1
     id: pinB
@@ -75,17 +80,22 @@ script:
     # setup for CT1 A=0 B=0 - ct1Amps
       - output.turn_off: pinA
       - output.turn_off: pinB
-      - delay: 2s
+      - delay: 1s
+      - component.update: adc_sensor
+      - delay: 50ms
       - component.update: ct1Amps
-      - delay: 500ms
       - component.update: ct1Watts
-      - delay: 500ms
+      - delay: 450ms
 
 sensor:
   - platform: adc
     pin: A0
     id: adc_sensor
+    update_interval: ${update_time}
 #    attenuation: 11db #esp32 only
+    filters:
+      - multiply: 3.3 # Wemos D1 mini includes external voltage divider circuitry to scale down a 3.3V input signal to the chip-internal 1.0V
+      - offset: -1.65 # shift down by 3.3V/2=1.65V serve a centrare la sinusoide su 0 (altrimenti legge tutta positiva).
 
   - platform: ct_clamp
     sensor: adc_sensor
@@ -93,31 +103,35 @@ sensor:
     name: ct1Amps
     id: ct1Amps
     unit_of_measurement: A
-    accuracy_decimals: 5
-#    sample_duration: 200ms # default 200ms
+    accuracy_decimals: 2
+#    sample_duration: 200ms # default 200m
     update_interval: ${update_time}
+#          if (x < 0.001) return 0.0;                           // Ignora valori molto bassi 
     filters:
-      - multiply: 100
+      - lambda: |-
+
+          return clamp(round(x * 100.0) / 100.0, 0.0, 100.0);  // Arrotonda a 2 decimali e limita a 100 A
+      - delta: 0.001  # ignora piccole variazioni, riduce aggiornamenti inutili
+      - exponential_moving_average:
+         alpha: 0.3
+         send_every: 3
       - calibrate_linear:
           # Measured value of 0 maps to 0A
           - 0 -> 0
-#          - 0.00207 -> 0.06198 # lampadina 15w
-#          - 0.00340 -> 0.36 #0.31818 # lampadina 77w
-#          - 0.00363 -> 0.41322 # lampadina 100w
           - 0.74 -> 0.77
           # Known load: 5.706A
           # Raw AC Value in logs: 0.011A 
       #    - 0.011 -> 5.700
+      - multiply: 100
 
 # Watts
   - platform: template
     name: CT1 Watts
     id: ct1Watts
-    device_class: energy
     lambda: return id(ct1Amps).state * ${ic1Volts};
     accuracy_decimals: 0
     unit_of_measurement: W
-    update_interval: ${update_time}
+    update_interval: ${update_time_watt}
 
 # kWh
   - platform: total_daily_energy
