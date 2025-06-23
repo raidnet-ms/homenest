@@ -58,6 +58,7 @@ sensor:
     eco2:
       name: "eCO2 Value"
       id: eco2
+      accuracy_decimals: 0
       filters:
         - median:
             window_size: 5
@@ -69,6 +70,7 @@ sensor:
     tvoc:
       name: "Total Volatile Organic Compound"
       id: tvoc
+      accuracy_decimals: 0
       filters:
         - median:
             window_size: 5
@@ -85,6 +87,7 @@ sensor:
   - platform: pm1006
     pm_2_5:
       name: "Particolato PM25"
+      accuracy_decimals: 0
       filters:
         - sliding_window_moving_average:
             window_size: 30

@@ -17,7 +17,6 @@ substitutions:
   gpio_board_led: D5
 # Device substitutions
   update_time: never #comanda lo script quando aggiornare 5s # must be > (pin_set_delay+component_update_delay*2) * channels
-  update_time_watt: 10s
   ic1Volts: "230"
 
 
@@ -69,7 +68,7 @@ output:
     id: pinA
 
 interval:
-  - interval: 15s
+  - interval: 5s
     then:
       - script.execute: readCTs
 script:
@@ -84,6 +83,7 @@ script:
       - component.update: adc_sensor
       - delay: 50ms
       - component.update: ct1Amps
+      - delay: 100ms
       - component.update: ct1Watts
       - delay: 450ms
 
@@ -100,30 +100,28 @@ sensor:
   - platform: ct_clamp
     sensor: adc_sensor
     device_class: current
-    name: ct1Amps
+#    name: ct1Amps
     id: ct1Amps
     unit_of_measurement: A
-    accuracy_decimals: 2
+    accuracy_decimals: 0
 #    sample_duration: 200ms # default 200m
     update_interval: ${update_time}
-#          if (x < 0.001) return 0.0;                           // Ignora valori molto bassi 
     filters:
-      - lambda: |-
-
-          return clamp(round(x * 100.0) / 100.0, 0.0, 100.0);  // Arrotonda a 2 decimali e limita a 100 A
-      - delta: 0.001  # ignora piccole variazioni, riduce aggiornamenti inutili
-      - exponential_moving_average:
-         alpha: 0.3
-         send_every: 3
-      - calibrate_linear:
+      - calibrate_linear: # Prima la calibrazione, per correggere la lettura raw
           # Measured value of 0 maps to 0A
           - 0 -> 0
           - 0.74 -> 0.77
           # Known load: 5.706A
           # Raw AC Value in logs: 0.011A 
       #    - 0.011 -> 5.700
-      - multiply: 100
-
+      - multiply: 100 # Poi porti tutto su scala reale
+      - lambda: |-
+          if (x < 0.05) return 0.0;                           // Ignora valori molto bassi 
+          return clamp(round(x * 100.0) / 100.0, 0.0, 100.0);  // Arrotonda a 2 decimali e limita a 100 A
+      - delta: 0.04 # ignora variazioni inferiori a 0.04 riduce aggiornamenti inutili (incrementi o decrementi di 9w, se troppo impostare su 0.01)
+      - exponential_moving_average: # Infine la stabilizzazione
+         alpha: 0.3
+         send_every: 3
 # Watts
   - platform: template
     name: CT1 Watts
@@ -131,7 +129,9 @@ sensor:
     lambda: return id(ct1Amps).state * ${ic1Volts};
     accuracy_decimals: 0
     unit_of_measurement: W
-    update_interval: ${update_time_watt}
+    update_interval: ${update_time}
+    filters:
+      - delta: 2 # Pubblica solo se cambia di almeno 2 watt
 
 # kWh
   - platform: total_daily_energy
@@ -141,3 +141,4 @@ sensor:
     filters:
       - multiply: 0.001
     unit_of_measurement: kWh
+    device_class: energy
