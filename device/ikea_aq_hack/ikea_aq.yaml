@@ -38,14 +38,17 @@ sensor:
             - 24.87 -> 20.6
             - 27.6 -> 21.4
             - 34.1 -> 29.6
+        - delta: 0.5
 
     humidity:
       name: "Umidità"
       id: hum
+      accuracy_decimals: 0
       filters:
         - calibrate_linear:
             - 0.0 -> 0.0
             - 52.20 -> 60
+        - delta: 1.0
 
   - platform: ccs811  # esiste il sensore con sensore temperatura 1080h integrato CJMCU-8128 CCS811
 #    update_interval: 60s
@@ -57,15 +60,23 @@ sensor:
       id: eco2
       filters:
         - median:
+            window_size: 5
+            send_every: 1
+            send_first_at: 1
+        - delta: 5.0
         - throttle: 60s
-        - heartbeat: 60s
+#        - heartbeat: 60s
     tvoc:
       name: "Total Volatile Organic Compound"
       id: tvoc
       filters:
         - median:
+            window_size: 5
+            send_every: 1
+            send_first_at: 1
+        - delta: 5.0  # per TVOC, variazioni minime non sono significative
         - throttle: 60s
-        - heartbeat: 60s
+#        - heartbeat: 60s
     temperature: temp
     humidity: hum
     baseline: 0xBFBD # Valore di calibrazione
@@ -76,9 +87,10 @@ sensor:
       name: "Particolato PM25"
       filters:
         - sliding_window_moving_average:
-            window_size: 60
+            window_size: 30
             send_every: 60
 #            send_first_at: 1 #default 1
+        - delta: 2.0  # invia solo se cambia di almeno 2 µg/m³
 
 
   - platform: absolute_humidity
