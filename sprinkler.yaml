@@ -36,9 +36,10 @@ substitutions:
   # Valvola 4
   valve4_open: D7      # GPIO13
   valve4_close: D5    # GPIO14
-
+  pulse_lenght: 1s
   # Relè luci
   rele_luci_pin: D8          # GPIO15
+
   
 ####################################################
 #dashboard_import:

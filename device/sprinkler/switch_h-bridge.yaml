@@ -5,14 +5,14 @@ switch:
 #    name: "H-Bridge" # Non deve comparire tra gli switch di attivazione poiché le valvole devono essere controllate tramite le Zone.
     on_pin: ${valve1_open}
     off_pin: ${valve1_close}
-    pulse_length: 50ms
+    pulse_length: ${pulse_lenght} #250ms?
     wait_time: 50ms
 
   - platform: hbridge
     id: valve2
     on_pin: ${valve2_open}
     off_pin: ${valve2_close}
-    pulse_length: 50ms
+    pulse_length: ${pulse_lenght}
     wait_time: 50ms
 
   - platform: hbridge
@@ -20,7 +20,7 @@ switch:
 #    name: "H-Bridge" # Non deve comparire tra gli switch di attivazione poiché le valvole devono essere controllate tramite le Zone.
     on_pin: ${valve3_open}
     off_pin: ${valve3_close}
-    pulse_length: 50ms
+    pulse_length: ${pulse_lenght}
     wait_time: 50ms
 
   - platform: hbridge
@@ -28,7 +28,7 @@ switch:
 #    name: "H-Bridge" # Non deve comparire tra gli switch di attivazione poiché le valvole devono essere controllate tramite le Zone.
     on_pin: ${valve4_open}
     off_pin: ${valve4_close}
-    pulse_length: 50ms
+    pulse_length: ${pulse_lenght}
     wait_time: 50ms
 
 
