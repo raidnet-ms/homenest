@@ -68,7 +68,7 @@ packages:
   device: !include device/sprinkler/config.device_base.yaml
 #  sprinkler: github://raidnet-ms/homenest/device/sprinkler/config.device_base.yaml@main
 #  solenoid: github://raidnet-ms/homenest/device/sprinkler/switch_bistable_gpio.yaml@main
-  solenoid: !include device/sprinkler/switch_bistable_gpio.yaml
+#  solenoid: !include device/sprinkler/switch_bistable_gpio.yaml
   solenoid2: !include device/sprinkler/switch_h-bridge.yaml
 #  solenoid2: github://raidnet-ms/homenest/device/sprinkler/switch_h-bridge.yaml@main
 #  segnapassi: github://raidnet-ms/homenest/device/sprinkler/timer_segnapassi.yaml@main
