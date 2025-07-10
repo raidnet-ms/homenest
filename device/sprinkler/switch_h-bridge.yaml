@@ -32,8 +32,8 @@ switch:
     wait_time: 50ms
 
 
-  # Relè Luci
-  - platform: output
-    name: "Relè Luci"
-    output: rele_luci
-    restore_mode: ALWAYS_OFF
+#  # Relè Luci
+#  - platform: output
+#    name: "Relè Luci"
+#    output: rele_luci
+#    restore_mode: ALWAYS_OFF
