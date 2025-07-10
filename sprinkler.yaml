@@ -65,7 +65,7 @@ packages:
   boot: github://raidnet-ms/homenest/device/sprinkler/boot.device.yaml@main
   buttons: github://raidnet-ms/homenest/device/sprinkler/buttons.device.yaml@main
 #  config_device: github://raidnet-ms/homenest/device/sprinkler/config.device_base.yaml@main
-  device: !include device/sprinkler/config.device_base.yaml
+  device: !include device/sprinkler/config.device_basenew.yaml
 #  sprinkler: github://raidnet-ms/homenest/device/sprinkler/config.device_base.yaml@main
 #  solenoid: github://raidnet-ms/homenest/device/sprinkler/switch_bistable_gpio.yaml@main
 #  solenoid: !include device/sprinkler/switch_bistable_gpio.yaml
