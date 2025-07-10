@@ -1,29 +1,3 @@
-# in teoria questo file andrebbe su github e dovrebbe essere collegato al file config disponibile sui device client
-#substitutions:
-#  name: sprinkler
-#  friendly_name: Irrigatore
-#  project_name: raidnet.alligator
-#  project_version: 1.0.0
-#  comment: comment
-  # Options
-#  disable_entities: 'true' # disable unnecessary entities by default
-#  log_level: debug
-
-  #wifi_ssid: !secret wifi_ssid
-  #wifi_password: !secret wifi_password
-  #api_key: !secret api_key
-  #ota_password: !secret ota_password
-
-#  zonename_A: A - Null  # vedere se posso inserirle come config in esphome text
-#  zonename_B: B - Siepe
-#  zonename_C: C - Orto
-#  zonename_D: D - Prato
-
-
-# Device GPIO
-#  light_pin: GPIO1
-# aggiungere i gpio dello sprinkler
-
 sensor:
   - platform: template
     id: irrigation_av_state
@@ -123,3 +97,17 @@ sprinkler:
 #        valve_switch_id: valve_D
         valve_on_switch_id: d_on
         valve_off_switch_id: d_off
+
+# Timer segnapassi
+number:
+  - platform: template
+    name: "Timer segnapassi"
+    step: 30
+    min_value: 30
+    max_value: 300
+    id: timer_light
+    optimistic: true
+    restore_value: true
+    unit_of_measurement: s
+    icon: mdi:timer
+    entity_category: config

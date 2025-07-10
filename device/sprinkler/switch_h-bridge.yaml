@@ -1,9 +1,39 @@
 #da implementare
 switch:
   - platform: hbridge
-    id: hbridge1
+    id: valve1
 #    name: "H-Bridge" # Non deve comparire tra gli switch di attivazione poiché le valvole devono essere controllate tramite le Zone.
-    on_pin: D8
-    off_pin: D7
+    on_pin: ${valve1_open}
+    off_pin: ${valve1_close}
     pulse_length: 50ms
     wait_time: 50ms
+
+  - platform: hbridge
+    id: valve2
+    on_pin: ${valve2_open}
+    off_pin: ${valve2_close}
+    pulse_length: 50ms
+    wait_time: 50ms
+
+  - platform: hbridge
+    id: valve3
+#    name: "H-Bridge" # Non deve comparire tra gli switch di attivazione poiché le valvole devono essere controllate tramite le Zone.
+    on_pin: ${valve3_open}
+    off_pin: ${valve3_close}
+    pulse_length: 50ms
+    wait_time: 50ms
+
+  - platform: hbridge
+    id: valve4
+#    name: "H-Bridge" # Non deve comparire tra gli switch di attivazione poiché le valvole devono essere controllate tramite le Zone.
+    on_pin: ${valve4_open}
+    off_pin: ${valve4_close}
+    pulse_length: 50ms
+    wait_time: 50ms
+
+
+  # Relè Luci
+  - platform: output
+    name: "Relè Luci"
+    output: rele_luci
+    restore_mode: ALWAYS_OFF

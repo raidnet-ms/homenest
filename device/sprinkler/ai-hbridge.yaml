@@ -1,0 +1,126 @@
+substitutions:
+  # Valvola 1
+  valvola1_apri_pin: D1      # GPIO5
+  valvola1_chiudi_pin: D3    # GPIO0
+
+  # Valvola 2
+  valvola2_apri_pin: D2      # GPIO4
+  valvola2_chiudi_pin: D4    # GPIO2
+
+  # Valvola 3
+  valvola3_apri_pin: D0      # GPIO16
+  valvola3_chiudi_pin: D6    # GPIO12
+
+  # Valvola 4
+  valvola4_apri_pin: D7      # GPIO13
+  valvola4_chiudi_pin: D5    # GPIO14
+
+  # Relè luci
+  rele_luci_pin: D8          # GPIO15
+
+esphome:
+  name: wemos_irrigazione
+  on_boot:
+    priority: -100
+    then:
+      - switch.turn_off: rele_luci
+
+logger:
+api:
+ota:
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+output:
+  # Valvola 1
+  - platform: gpio
+    id: valvola1_a
+    pin: ${valvola1_apri_pin}
+  - platform: gpio
+    id: valvola1_b
+    pin: ${valvola1_chiudi_pin}
+
+  # Valvola 2
+  - platform: gpio
+    id: valvola2_a
+    pin: ${valvola2_apri_pin}
+  - platform: gpio
+    id: valvola2_b
+    pin: ${valvola2_chiudi_pin}
+
+  # Valvola 3
+  - platform: gpio
+    id: valvola3_a
+    pin: ${valvola3_apri_pin}
+  - platform: gpio
+    id: valvola3_b
+    pin: ${valvola3_chiudi_pin}
+
+  # Valvola 4
+  - platform: gpio
+    id: valvola4_a
+    pin: ${valvola4_apri_pin}
+  - platform: gpio
+    id: valvola4_b
+    pin: ${valvola4_chiudi_pin}
+
+  # Relè luci
+  - platform: gpio
+    pin: ${rele_luci_pin}
+    id: rele_luci
+    initial_value: false
+
+switch:
+  # Valvola 1
+  - platform: hbridge
+    id: valvola1
+    name: "Valvola 1"
+    pin_a: valvola1_a
+    pin_b: valvola1_b
+    auto_turn_off: 500ms
+
+  # Valvola 2
+  - platform: hbridge
+    id: valvola2
+    name: "Valvola 2"
+    pin_a: valvola2_a
+    pin_b: valvola2_b
+    auto_turn_off: 500ms
+
+  # Valvola 3
+  - platform: hbridge
+    id: valvola3
+    name: "Valvola 3"
+    pin_a: valvola3_a
+    pin_b: valvola3_b
+    auto_turn_off: 500ms
+
+  # Valvola 4
+  - platform: hbridge
+    id: valvola4
+    name: "Valvola 4"
+    pin_a: valvola4_a
+    pin_b: valvola4_b
+    auto_turn_off: 500ms
+
+  # Relè Luci
+  - platform: output
+    name: "Relè Luci"
+    output: rele_luci
+    restore_mode: ALWAYS_OFF
+
+sprinkler:
+  - id: irrigazione
+    name: "Irrigazione Giardino"
+    valves:
+      - valve_switch: valvola1
+        enable_time: 60s
+      - valve_switch: valvola2
+        enable_time: 90s
+      - valve_switch: valvola3
+        enable_time: 45s
+      - valve_switch: valvola4
+        enable_time: 75s
+    shutdown_duration: 10s

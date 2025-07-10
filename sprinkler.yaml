@@ -21,6 +21,25 @@ substitutions:
   zonename_C: C - Orto
   zonename_D: D - Prato
 
+  # Gpio on D1 mini
+  valve1_open: D1      # GPIO5
+  valve1_close: D3    # GPIO0
+
+  # Valvola 2
+  valve2_open: D2      # GPIO4
+  valve2_close: D4    # GPIO2
+
+  # Valvola 3
+  valve3_open: D0      # GPIO16
+  valve3_close: D6    # GPIO12
+
+  # Valvola 4
+  valve4_open: D7      # GPIO13
+  valve4_close: D5    # GPIO14
+
+  # Relè luci
+  rele_luci_pin: D8          # GPIO15
+  
 ####################################################
 #dashboard_import:
 #  package_import_url: github://raidnet-ms/esphome-nest/device/sprinkler/main.sprinkler.yaml
@@ -53,7 +72,7 @@ packages:
   solenoid2: !include device/sprinkler/switch_h-bridge.yaml
 #  solenoid2: github://raidnet-ms/homenest/device/sprinkler/switch_h-bridge.yaml@main
 #  segnapassi: github://raidnet-ms/homenest/device/sprinkler/timer_segnapassi.yaml@main
-  segnapassi: !include device/sprinkler/timer_segnapassi.yaml
+
   
 
 #  device: !include device/sprinkler/packages.yaml
