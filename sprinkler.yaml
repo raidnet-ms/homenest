@@ -26,8 +26,8 @@ substitutions:
   valve1_close: D3    # GPIO0
 
   # Valvola 2
-  valve2_open: D2      # GPIO4
-  valve2_close: D4    # GPIO2
+  valve2_open: D4      # GPIO4
+  valve2_close: D2    # GPIO2
 
   # Valvola 3
   valve3_open: D0      # GPIO16
