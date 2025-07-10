@@ -22,12 +22,12 @@ substitutions:
   zonename_D: D - Prato
 
   # Gpio on D1 mini
-  valve1_open: D1      # GPIO5
-  valve1_close: D3    # GPIO0
+  valve1_open: D2      # GPIO5  D1
+  valve1_close: D4    # GPIO0  D3
 
   # Valvola 2
-  valve2_open: D2      # GPIO4
-  valve2_close: D4    # GPIO2
+  valve2_open: D1      # GPIO4  D2
+  valve2_close: D3    # GPIO2  D4
 
   # Valvola 3
   valve3_open: D0      # GPIO16
