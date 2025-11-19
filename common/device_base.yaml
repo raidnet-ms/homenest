@@ -32,10 +32,12 @@ wifi:
 
 ### In caso di mofidica al devicename impostare il vecchio nome al primo update
 #  use_address: mdnsname.local
+
 # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
     password: $ap_password
 
+# Enable Home Assistant API
 api:
 ### //la dashboard import carica una key univoca per ogni device.
   encryption:

@@ -19,58 +19,71 @@ substitutions:
 
 # Device options (Device substitutions)
   button_toggle: "true"
-  led_restore_mode: RESTORE_DEFAULT_OFF #ALWAYS_OFF
+  led_restore_mode:  RESTORE_DEFAULT_OFF #ALWAYS_OFF
   number_of_leds: '29'
   led_rgb_order: GRB
-  led_chipset: WS2812x
+  led_chipset: WS2811 #WS2812x
   
 #  restore_from_flash: true #vedere dove conviene mettere il valore, se qui oppure in common-8266
-#preferences:
-#  flash_write_interval: 1min
+
 packages:
   base: github://raidnet-ms/homenest/common/device_base.yaml@main
   chip: github://raidnet-ms/homenest/common/board/common-8266.yaml@main
 
+
+
 esphome:
+  name: "$name"
+  friendly_name: "$friendly_name"
+#  name_add_mac_suffix: true
+  project:
+    name: "$project_name"
+    version: "$project_version"
   platformio_options:
     board_upload.flash_size: 2MB
-    board_upload.maximum_size: 2097152
+    board_upload.maximum_size: 2097152 #1048576  
+    board_build.ldscript: eagle.flash.2m.ld
+#    board_build.flash_mode: dio
+#    board_build.f_cpu: 160000000L
 
+web_server:
+  port: 80
 
-esp8266: #abilitare per retrocompatibilità con fastled
-  board: esp01_1m
+esp8266:
+  board: esp01_1m  #esp8285
   restore_from_flash: true
 #  framework:
 #    version: 2.7.4
 
-#logger: !remove
-#  baud_rate: 0
+
+logger:  # Disabilitare per evitare conflitti con GPIO01. Inoltre non avendo usb è inutile
+  baud_rate: 0
 
 
-binary_sensor:
-  - platform: gpio
-    pin:
-      number: 0
-      mode: INPUT_PULLUP
-      inverted: true
-    name: "Power Button"
-    on_multi_click:
-      - timing:
-          - ON for at most 1s
-          - OFF for at least 0.2s
-        then:
-          - light.toggle: leds
-      - timing:
-          - ON for at least 4s
-        then:
-          - button.press: Reset
+#binary_sensor:
+#  - platform: gpio
+#    pin:
+#      number: 0
+#      mode: INPUT_PULLUP
+#      inverted: true
+#    name: "Power Button"
+#    on_multi_click:
+#      - timing:
+#          - ON for at most 1s
+#          - OFF for at least 0.2s
+#        then:
+#          - light.toggle: leds
+#      - timing:
+#          - ON for at least 4s
+#        then:
+#          - button.press: Reset
 
 button:
   - platform: factory_reset
     name: Restart with Factory Default Settings
     id: Reset
 
-light:
+#light:
 #  - platform: fastled_clockless
 #    pin: GPIO1
 #    id: leds
@@ -80,28 +93,35 @@ light:
 #    rgb_order: ${led_rgb_order}
 #    restore_mode: ${led_restore_mode}
 
-  - platform: neopixelbus
-    type: ${led_rgb_order}
-    variant: ${led_chipset}
-    pin: GPIO1
-    num_leds: ${number_of_leds}
-    name: "led"
-    id: leds
+#  - platform: neopixelbus
+#    type: ${led_rgb_order}
+#    variant: ${led_chipset}
+#    pin: GPIO1
+#    num_leds: ${number_of_leds}
+#    method: esp8266_uart0
+#    name: "led"
+#    id: leds
+#    default_transition_length: 0s
 
-    effects:
-      - addressable_rainbow:
-          speed: 10
-          width: 50
-      - addressable_scan:
+#    effects:
+  ##    - addressable_rainbow:
+  ##        speed: 10
+  ##        width: 50
+#      - addressable_scan:
 #      - addressable_color_wipe:
+#          colors:
+#            - red: 255
+#              green: 0
+#              blue: 0
+#          add_led_interval: 50ms
 #      - addressable_twinkle:
 #          name: Twinkle Effect With Custom Values
 #          twinkle_probability: 5%
 #          progress_interval: 4ms
-      - addressable_random_twinkle:
+ ####     - addressable_random_twinkle:
 #      - addressable_fireworks:
 #      - addressable_flicker:
-      - flicker:
+#      - flicker:
 #          name: Flicker Effect With Custom Values
 #          alpha: 95%
 #          intensity: 1.5%

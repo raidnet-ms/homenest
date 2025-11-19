@@ -1,0 +1,136 @@
+substitutions:
+  name: termostato-biomassa
+  friendly_name: Termostato Caldaia Biomassa
+  project_name: raidnet.aq
+  project_version: 1.0.0
+  comment: comment
+
+  log_level: debug
+  disable_entities:  'true' # Disabilitare in blocco entità superflue
+  wifi_ssid: !secret wifi_ssid
+  wifi_password: !secret wifi_password
+  api_key: !secret api_key
+  ota_password: !secret ota_password
+
+
+
+# Allineamento iniziale del LED all'avvio
+# (utile se il termostato riparte in HEAT o OFF)
+# Esegue la stessa logica di on_state al boot
+# così il LED è coerente fin da subito.
+# NOTA: il climate inizializza molto rapidamente; questo è un extra di coerenza.
+# Se non necessario, puoi rimuovere on_boot.
+  on_boot:
+    priority: -10
+    then:
+      - if:
+          condition:
+            lambda: |-
+              return id(termostato).mode == CLIMATE_MODE_HEAT;
+          then:
+            - switch.turn_on: led_pulsante
+          else:
+            - switch.turn_off: led_pulsante
+packages:
+# Common Remote Packages
+  base: github://raidnet-ms/homenest/common/device_base.yaml@main
+  chip: github://raidnet-ms/homenest/common/board/common-8266.yaml@main
+  board: github://raidnet-ms/homenest/common/board/d1_mini.yaml
+  diagnostic: github://raidnet-ms/homenest/common/diagnostic.yaml@main
+
+
+
+# Sensori e pulsante
+binary_sensor:
+# Sensore gas Flying Fish MQ (uscita digitale D0 → GPIO16)
+  - platform: gpio
+    pin: D0
+    name: "Allarme Gas MQ"
+    device_class: gas
+# Sensore apertura valvola scegli un pin libero (es. GPIO12 → D6)
+  - platform: gpio
+    pin:
+      number: D6   # scegli un pin libero (es. GPIO12 → D6)
+      mode: INPUT_PULLUP
+      inverted: true
+    name: "Stato Valvola"
+    device_class: opening   # opzionale: mostra come "aperto/chiuso" in HA
+# Pulsante su D3 con toggle del termostato (INPUT_PULLUP)
+  - platform: gpio
+    pin:
+      number: D3
+      mode: INPUT_PULLUP
+      inverted: true
+    name: "Pulsante Termostato"
+    on_press:
+      - if:
+          condition:
+            lambda: |-
+              return id(termostato).mode == CLIMATE_MODE_OFF;
+          then:
+            - climate.control:
+                id: termostato
+                mode: "HEAT"
+          else:
+            - climate.control:
+                id: termostato
+                mode: "OFF"
+
+# Attuatori: relè riscaldamento e LED pulsante tramite level shifter
+switch:
+# Relè collegato a D1
+  - platform: gpio
+    pin: D1
+    id: rele
+    name: "Relè Riscaldamento"
+# LED del pulsante (uscita 3.3V → level shifter → LED a 5V)
+# Usa un pin "sicuro" che non influenzi il boot: D2 (GPIO4)
+  - platform: gpio
+    pin: D2
+    id: led_pulsante
+    name: "LED Pulsante Termostato"
+# Sensore temperatura AM2302 (DHT22) su D5
+sensor:
+  - platform: dht
+    pin: D5
+    model: AM2302
+    temperature:
+      name: "Temperatura Ambiente"
+      id: temp_sensore
+    humidity:
+      name: "Umidità Ambiente"
+    update_interval: 30s
+# Termostato che usa il relè e il sensore AM2302
+climate:
+  - platform: thermostat
+    name: "Termostato"
+    id: termostato
+    visual:
+      min_temperature: 18
+      max_temperature: 25
+      temperature_step:
+        target_temperature: 0.5
+        current_temperature: 0.1
+      min_humidity: 30%
+      max_humidity: 99%
+    sensor: temp_sensore
+    min_idle_time: 30s   # tempo minimo di inattività
+    min_heating_off_time: 60s
+    min_heating_run_time: 120s
+    # Azioni associate agli stati
+    idle_action:
+      - switch.turn_off: led_pulsante
+    heat_action:
+      - switch.turn_on: rele
+      - switch.turn_on: led_pulsante
+# Sincronizza il LED con lo stato del termostato
+    on_state:
+      then:
+        - if:
+            condition:
+              lambda: |-
+                return id(termostato).mode == CLIMATE_MODE_HEAT;
+            then:
+              - switch.turn_on: led_pulsante
+            else:
+              - switch.turn_off: led_pulsante
