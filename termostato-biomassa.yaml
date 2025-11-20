@@ -1,7 +1,7 @@
 substitutions:
   name: termostato-biomassa
   friendly_name: Termostato Caldaia Biomassa
-  project_name: raidnet.aq
+  project_name: raidnet.biomassa
   project_version: 1.0.0
   comment: comment
 
@@ -136,12 +136,11 @@ climate:
       - switch.turn_on: led_pulsante
 # Sincronizza il LED con lo stato del termostato
     on_state:
-      then:
-        - if:
-            condition:
-              lambda: |-
-                return id(termostato).mode == CLIMATE_MODE_HEAT;
-            then:
-              - switch.turn_on: led_pulsante
-            else:
-              - switch.turn_off: led_pulsante
+      - if:
+          condition:
+            lambda: |-
+              return id(termostato).mode == CLIMATE_MODE_HEAT;
+          then:
+            - switch.turn_on: led_pulsante
+          else:
+            - switch.turn_off: led_pulsante

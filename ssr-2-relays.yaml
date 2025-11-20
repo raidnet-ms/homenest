@@ -1,7 +1,7 @@
 substitutions:
   name: ssr-2-relays
   friendly_name: Relay SSR2
-  project_name: raidnet.aq
+  project_name: raidnet.ssr2
   project_version: 1.0.0
   comment: comment
 
