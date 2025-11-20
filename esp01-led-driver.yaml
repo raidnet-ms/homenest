@@ -1,0 +1,28 @@
+esphome:
+  name: esp01-led-driver
+  friendly_name: esp01-led-driver
+
+
+
+substitutions:
+  name: esp01-led-driver
+  friendly_name: Esp01 led driver
+  project_name: raidnet.aq
+  project_version: 1.0.0
+  comment: comment
+
+  log_level: debug
+  disable_entities:  'true' # Disabilitare in blocco entità superflue
+  wifi_ssid: !secret wifi_ssid
+  wifi_password: !secret wifi_password
+  api_key: !secret api_key
+  ota_password: !secret ota_password
+
+packages:
+# Common Remote Packages
+  base: github://raidnet-ms/homenest/common/device_base.yaml@main
+  chip: github://raidnet-ms/homenest/common/board/common-8266.yaml@main
+  board: github://raidnet-ms/homenest/common/board/esp01s.yaml
+  diagnostic: github://raidnet-ms/homenest/common/diagnostic.yaml@main
+
+

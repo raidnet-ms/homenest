@@ -1,10 +1,23 @@
-esphome:
-  name: $devicename
-  platform: ESP8266
+substitutions:
   board: esp01_1m
+
+#esphome:
+#  name: $devicename
+#  board: esp01_1m
 #  name_add_mac_suffix: true
 #  build_path: ./build/$devicename
 
 # Enable logging
 logger:
-#  baud_rate: 0
+  baud_rate: 0
+
+# Onboard led - disabilitare logger se si vuole usare
+#output:
+#  - platform: gpio
+#    pin: GPIO1
+#    id: led_gpio
+
+#light:
+#  - platform: binary
+#    name: "LED ESP01"
+#    output: led_gpio

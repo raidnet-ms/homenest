@@ -3,8 +3,8 @@ substitutions:
 
 # I²C Bus
 #i2c:
-#  sda: GPIO21 #D2? verificare
-#  scl: GPIO22 #D1? verificare
+#  sda: D2
+#  scl: D1
 #  scan: true
 #  frequency: 100kHz
 

@@ -44,13 +44,13 @@ packages:
 binary_sensor:
 # Sensore gas Flying Fish MQ (uscita digitale D0 → GPIO16)
   - platform: gpio
-    pin: D0
+    pin: D5
     name: "Allarme Gas MQ"
     device_class: gas
-# Sensore apertura valvola scegli un pin libero (es. GPIO12 → D6)
+# Sensore apertura valvola
   - platform: gpio
     pin:
-      number: D6   # scegli un pin libero (es. GPIO12 → D6)
+      number: D3   # scegli un pin libero (es. GPIO12 → D6)
       mode: INPUT_PULLUP
       inverted: true
     name: "Stato Valvola"
@@ -58,7 +58,7 @@ binary_sensor:
 # Pulsante su D3 con toggle del termostato (INPUT_PULLUP)
   - platform: gpio
     pin:
-      number: D3
+      number: D4
       mode: INPUT_PULLUP
       inverted: true
     name: "Pulsante Termostato"
@@ -78,7 +78,7 @@ binary_sensor:
 
 # Attuatori: relè riscaldamento e LED pulsante tramite level shifter
 switch:
-# Relè collegato a D1
+# Relè collegato a D1 (lo Shield usa obbligatoriamente D1)
   - platform: gpio
     pin: D1
     id: rele
@@ -86,13 +86,15 @@ switch:
 # LED del pulsante (uscita 3.3V → level shifter → LED a 5V)
 # Usa un pin "sicuro" che non influenzi il boot: D2 (GPIO4)
   - platform: gpio
-    pin: D2
+    pin: D0
     id: led_pulsante
     name: "LED Pulsante Termostato"
-# Sensore temperatura AM2302 (DHT22) su D5
+
+
 sensor:
+# Sensore temperatura AM2302 (DHT22) su D5
   - platform: dht
-    pin: D5
+    pin: D2
     model: AM2302
     temperature:
       name: "Temperatura Ambiente"
@@ -100,6 +102,12 @@ sensor:
     humidity:
       name: "Umidità Ambiente"
     update_interval: 30s
+# MQ2 analogico su A0 (con partitore resistivo 4.7k+1k)
+  - platform: adc
+    pin: A0
+    name: "MQ2 Fumo Analogico"
+    update_interval: 5s
+
 # Termostato che usa il relè e il sensore AM2302
 climate:
   - platform: thermostat
