@@ -91,7 +91,7 @@ sensor:
         - exponential_moving_average:
             alpha: 0.25
             send_every: 1
-        - delta: 5.0  # per TVOC, variazioni minime non sono significative
+#        - delta: 5.0  # per TVOC, variazioni minime non sono significative
 #        - throttle: 60s # Ridondante con update interval 60s come valore di default per il sensore.
 #        - heartbeat: 60s
     temperature: temp
