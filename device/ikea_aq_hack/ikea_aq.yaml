@@ -72,7 +72,7 @@ sensor:
             window_size: 5
             send_every: 1
             send_first_at: 1
-        - delta: 2
+        - delta: 2.0
 #        - throttle: 60s # Ridondante con update interval 60s come valore di default per il sensore.
 #        - heartbeat: 60s
     tvoc:
@@ -96,6 +96,7 @@ sensor:
     pm_2_5:
       name: "Particolato PM25"
       accuracy_decimals: 0
+      update_interval: 10s
       filters:
         - sliding_window_moving_average:
             window_size: 30
