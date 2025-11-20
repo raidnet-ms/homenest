@@ -72,8 +72,8 @@ sensor:
             window_size: 5
             send_every: 1
             send_first_at: 1
-        - delta: 5.0
-        - throttle: 60s
+        - delta: 2
+#        - throttle: 60s # Ridondante con update interval 60s come valore di default per il sensore.
 #        - heartbeat: 60s
     tvoc:
       name: "Total Volatile Organic Compound"
@@ -84,8 +84,8 @@ sensor:
             window_size: 5
             send_every: 1
             send_first_at: 1
-        - delta: 5.0  # per TVOC, variazioni minime non sono significative
-        - throttle: 60s
+#        - delta: 5.0  # per TVOC, variazioni minime non sono significative
+#        - throttle: 60s # Ridondante con update interval 60s come valore di default per il sensore.
 #        - heartbeat: 60s
     temperature: temp
     humidity: hum
