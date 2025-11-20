@@ -27,7 +27,7 @@ uart: # used by pm1006 only rx needed
 # Calibrare sensore temperatura
 sensor:
   - platform: sht3xd
-    update_interval: 5min
+    update_interval: 2min
 #    address: 0x44
     temperature:
       name: "Temperatura"
