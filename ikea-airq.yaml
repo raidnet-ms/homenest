@@ -21,5 +21,5 @@ packages:
   diagnostic: github://raidnet-ms/homenest/common/diagnostic.yaml@main
 
 # Device Remote Packages
-  device: github://raidnet-ms/homenest/device/ikea_aq_hack/ikea_aq.yaml
-  aqi: github://raidnet-ms/homenest/common/sensor/aqi.yaml
+  device: github://raidnet-ms/homenest/device/ikea_aq_hack/ikea_aq.yaml@main
+  aqi: github://raidnet-ms/homenest/common/sensor/aqi.yaml@main
