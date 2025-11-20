@@ -29,6 +29,7 @@ captive_portal:
 wifi:
   ssid: $wifi_ssid
   password: $wifi_password
+  min_auth_mode: WPA2
 
 ### In caso di mofidica al devicename impostare il vecchio nome al primo update
 #  use_address: mdnsname.local

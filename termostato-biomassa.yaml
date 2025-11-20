@@ -55,6 +55,9 @@ binary_sensor:
       inverted: true
     name: "Stato Valvola"
     device_class: opening   # opzionale: mostra come "aperto/chiuso" in HA
+    filters:
+      - delayed_on: 50ms
+      - delayed_off: 50ms
 # Pulsante su D3 con toggle del termostato (INPUT_PULLUP)
   - platform: gpio
     pin:
