@@ -38,7 +38,11 @@ sensor:
             - 24.87 -> 20.6
             - 27.6 -> 21.4
             - 34.1 -> 29.6
-        - delta: 0.5
+#        - delta: 0.5
+        - exponential_moving_average:
+            alpha: 0.2    # 0.1 = più “lenta”, 0.3 = più “reattiva”
+            send_every: 1 # invia ad ogni lettura
+            send_first_at: 1  # invia già alla prima lettura
 
     humidity:
       name: "Umidità"
@@ -48,7 +52,11 @@ sensor:
         - calibrate_linear:
             - 0.0 -> 0.0
             - 52.20 -> 60
-        - delta: 1.0
+#        - delta: 1.0
+        - exponential_moving_average:
+            alpha: 0.2    # 0.1 = più “lenta”, 0.3 = più “reattiva”
+            send_every: 1 # invia ad ogni lettura
+            send_first_at: 1  # invia già alla prima lettura
 
   - platform: ccs811  # esiste il sensore con sensore temperatura 1080h integrato CJMCU-8128 CCS811
 #    update_interval: 60s
