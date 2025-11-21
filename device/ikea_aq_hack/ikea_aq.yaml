@@ -75,8 +75,8 @@ sensor:
         - exponential_moving_average:
             alpha: 0.25
             send_every: 1
-#        - delta: 35       # invia solo se varia ≥ 35 ppm
-        - delta: 2.0
+#        - delta: 10       # invia solo se varia ≥ 35 ppm
+        - delta: 5
 #        - throttle: 60s # Ridondante con update interval 60s come valore di default per il sensore.
 #        - heartbeat: 60s
     tvoc:

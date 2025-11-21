@@ -111,29 +111,47 @@ sensor:
     name: "MQ2 Fumo Analogico"
     update_interval: 5s
 
+  - platform: homeassistant
+    entity_id: sensor.awtrix_a8d29c_temperature
+    id: temp_awtrix
+  - platform: homeassistant
+    entity_id: sensor.awtrix_a8d29c_humidity
+    id: hum_awtrix
+
 # Termostato che usa il relè e il sensore AM2302
 climate:
   - platform: thermostat
     name: "Termostato"
     id: termostato
     visual:
-      min_temperature: 18
+      min_temperature: 16
       max_temperature: 25
       temperature_step:
         target_temperature: 0.5
         current_temperature: 0.1
       min_humidity: 30%
       max_humidity: 99%
-    sensor: temp_sensore
+#    sensor: temp_sensore
+    sensor: temp_awtrix
+    humidity_sensor: hum_awtrix
     min_idle_time: 30s   # tempo minimo di inattività
     min_heating_off_time: 60s
     min_heating_run_time: 120s
     # Azioni associate agli stati
     idle_action:
+      - switch.turn_off: rele
       - switch.turn_off: led_pulsante
     heat_action:
       - switch.turn_on: rele
       - switch.turn_on: led_pulsante
+    default_preset: Home
+    preset:
+      - name: Home
+        default_target_temperature_low: 20 °C
+      - name: Sleep
+        default_target_temperature_low: 17 °C
+      - name: Comfort
+        default_target_temperature_low: 21 °C
 # Sincronizza il LED con lo stato del termostato
     on_state:
       - if:
