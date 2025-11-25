@@ -11,5 +11,5 @@ esp32_improv:
   authorizer: none
 #  status_indicator:
 
-packages:
-  device_base: !include ../device_base.yaml
+#packages:
+#  device_base: !include ../device_base.yaml
