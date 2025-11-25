@@ -3,7 +3,7 @@ substitutions:
   friendly_name: Termostato Caldaia Biomassa
   project_name: raidnet.biomassa
   project_version: 1.0.0
-  comment: comment
+  comment: Vano caldaia, controllo fumi, accensione termostato, controllo temperatura vano.
 
   log_level: debug
   disable_entities:  'true' # Disabilitare in blocco entità superflue

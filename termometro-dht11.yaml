@@ -1,32 +1,26 @@
-esphome:
+substitutions:
   name: termometro-dht11
   friendly_name: termometro-dht11
+  project_name: raidnet.dht11
+  project_version: 1.0.0
+  comment: Termometro dht11 su esp01
 
-esp8266:
-  board: esp01_1m
+  log_level: debug
+  disable_entities:  'true' # Disabilitare in blocco entità superflue
+  wifi_ssid: !secret wifi_ssid
+  wifi_password: !secret wifi_password
+  api_key: !secret api_key
+  ota_password: !secret ota_password
 
-# Enable logging
-logger:
-
-# Enable Home Assistant API
-api:
-  encryption:
-    key: "/Oz42/0TApnPrv0ulkOs4LTe6kpnwsNl4oJaPvhYiIU="
-
-ota:
-  - platform: esphome
-    password: "b84a26eef25ef331c4916b3ff2a7d40d"
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "Termometro-Dht11"
-    password: "fHsTw9YAqkD4"
 
 captive_portal:
+
+packages:
+# Common Remote Packages
+  base: github://raidnet-ms/homenest/common/device_base.yaml@main
+  chip: github://raidnet-ms/homenest/common/board/common-8266.yaml@main
+  board: github://raidnet-ms/homenest/common/board/esp01s.yaml
+  diagnostic: github://raidnet-ms/homenest/common/diagnostic.yaml@main
 
 output:
   - platform: gpio

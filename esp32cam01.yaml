@@ -1,17 +1,25 @@
 substitutions:
-  devicename: esp32camera
-  upper_devicename: Camera1
-  
-esphome:
-  project:
-    name: "marco.$devicename"
-    version: "1.0.0"
+  name: esp32cam
+  friendly_name: Esp32 camera
+  project_name: raidnet.esp32cam
+  project_version: 1.0.0
+  comment: comment
 
-
+  log_level: debug
+  disable_entities:  'true' # Disabilitare in blocco entità superflue
+  wifi_ssid: !secret wifi_ssid
+  wifi_password: !secret wifi_password
+  api_key: !secret api_key
+  ota_password: !secret ota_password
 
 packages:
-  device_base: !include common/board/esp-wrover-kit.yaml
-  wifi:     !include common/wifi.yaml
+# Common Remote Packages
+  base: github://raidnet-ms/homenest/common/device_base.yaml@main
+  chip: github://raidnet-ms/homenest/common/board/common-8266.yaml@main
+  board: github://raidnet-ms/homenest/common/board/esp-wrover-kit.yaml
+  diagnostic: github://raidnet-ms/homenest/common/diagnostic.yaml@main
+
+
 
 ##############################################################
   

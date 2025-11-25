@@ -1,0 +1,44 @@
+substitutions:
+  name: esp01-rgb
+  friendly_name: esp01-rgb
+  project_name: raidnet.rgb
+  project_version: 1.0.0
+  comment: Termometro rgb su esp01
+
+  log_level: debug
+  disable_entities:  'true' # Disabilitare in blocco entità superflue
+  wifi_ssid: !secret wifi_ssid
+  wifi_password: !secret wifi_password
+  api_key: !secret api_key
+  ota_password: !secret ota_password
+
+
+
+packages:
+# Common Remote Packages
+  base: github://raidnet-ms/homenest/common/device_base.yaml@main
+  chip: github://raidnet-ms/homenest/common/board/common-8266.yaml@main
+  board: github://raidnet-ms/homenest/common/board/esp01s.yaml
+  diagnostic: github://raidnet-ms/homenest/common/diagnostic.yaml@main
+
+
+
+output:
+  - platform: esp8266_pwm
+    id: red_channel
+    pin: GPIO0
+    max_power: 80%
+  - platform: esp8266_pwm
+    id: green_channel
+    pin: GPIO2
+    max_power: 80%
+  - platform: esp8266_pwm
+    id: blue_channel
+    pin: GPIO3   # oppure GPIO1 se la tua shield usa TX
+
+light:
+  - platform: rgb
+    name: "ESP01 RGB Shield"
+    red: red_channel
+    green: green_channel
+    blue: blue_channel
