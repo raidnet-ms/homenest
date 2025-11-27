@@ -6,18 +6,19 @@ substitutions:
 
   log_level: debug
   disable_entities:  'true' # Disabilitare in blocco entità superflue
-  wifi_ssid: !secret wifi_ssid
-  wifi_password: !secret wifi_password
-  api_key: !secret api_key
-  ota_password: !secret ota_password
+#  wifi_ssid: !secret wifi_ssid
+#  wifi_password: !secret wifi_password
+#  api_key: !secret api_key
+#  ota_password: !secret ota_password
 
 
 packages:
 # Common Packages
-  base: !include ../../common/common/device_base.yaml@main
-  chip: !include ../../common/board/common-8266.yaml@main
-  board: !include ../../common/board/d1_mini.yaml
-  diagnostic: !include ../../common/diagnostic.yaml@main
+#  base: !include ../../common/common/device_base.yaml@main
+#  chip: !include ../../common/board/common-8266.yaml@main
+#  board: !include ../../common/board/d1_mini.yaml
+#  diagnostic: !include ../../common/diagnostic.yaml@main
 
 # Device Packages
-  aqi: !include ../../common/sensor/aqi.yaml
+#  aqi: !include ../../common/sensor/aqi.yaml
+  device: !include ikea-aq_test.yaml
