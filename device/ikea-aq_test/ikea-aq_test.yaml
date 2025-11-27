@@ -1,0 +1,118 @@
+i2c: # used by ccs811 and sht3xd
+  sda: D2
+  scl: D1
+#  scan: false
+
+switch:
+  - platform: gpio
+#    name: wake css811
+    entity_category: config
+    pin:
+      number: D3  
+      inverted: true
+    id: wake
+    restore_mode: ALWAYS_ON # Must be on on boot to retrieve data
+
+uart: # used by pm1006 only rx needed
+  rx_pin: D7
+  baud_rate: 9600
+
+# Calibrare sensore temperatura
+sensor:
+  - platform: sht3xd
+    update_interval: 2min
+#    address: 0x44
+    temperature:
+      name: "Temperatura"
+      id: temp
+      filters:
+        - calibrate_linear:
+#            - 0.0 -> 0.0
+            - 24.87 -> 20.6
+            - 27.6 -> 21.4
+            - 34.1 -> 29.6
+#        - delta: 0.5
+        - exponential_moving_average:
+            alpha: 0.2    # 0.1 = più “lenta”, 0.3 = più “reattiva”
+            send_every: 1 # invia ad ogni lettura
+            send_first_at: 1  # invia già alla prima lettura
+
+    humidity:
+      name: "Umidità"
+      id: hum
+      accuracy_decimals: 0
+      filters:
+        - calibrate_linear:
+            - 0.0 -> 0.0
+            - 52.20 -> 60
+#        - delta: 1.0
+        - exponential_moving_average:
+            alpha: 0.2    # 0.1 = più “lenta”, 0.3 = più “reattiva”
+            send_every: 1 # invia ad ogni lettura
+            send_first_at: 1  # invia già alla prima lettura
+
+  - platform: ccs811  # esiste il sensore con sensore temperatura 1080h integrato CJMCU-8128 CCS811
+#    update_interval: 60s
+#    version:
+#      name: versione
+#    address: 0x5A
+    eco2:
+      name: "eCO2 Value"
+      id: eco2
+      accuracy_decimals: 0
+      filters:
+        - median:
+            window_size: 5
+            send_every: 1
+            send_first_at: 1
+        - exponential_moving_average:
+            alpha: 0.25
+            send_every: 1
+#        - delta: 10       # invia solo se varia ≥ 35 ppm
+        - delta: 5
+#        - throttle: 60s # Ridondante con update interval 60s come valore di default per il sensore.
+#        - heartbeat: 60s
+    tvoc:
+      name: "Total Volatile Organic Compound"
+      id: tvoc
+      accuracy_decimals: 0
+      filters:
+        - median:
+            window_size: 5
+            send_every: 1
+            send_first_at: 1
+        - exponential_moving_average:
+            alpha: 0.25
+            send_every: 1
+#        - delta: 5.0  # per TVOC, variazioni minime non sono significative
+#        - throttle: 60s # Ridondante con update interval 60s come valore di default per il sensore.
+#        - heartbeat: 60s
+    temperature: temp
+    humidity: hum
+    baseline: 0xBFBD # Valore di calibrazione
+
+  # Ikea Vindriktning PM2.5 sensor
+  - platform: pm1006
+    pm_2_5:
+      name: "Particolato PM25"
+      accuracy_decimals: 0
+      filters:
+        - sliding_window_moving_average:
+            window_size: 30
+            send_every: 60
+#            send_first_at: 1 #default 1
+        - delta: 2.0  # invia solo se cambia di almeno 2 µg/m³
+
+
+  - platform: absolute_humidity
+    name: "Absolute Humidity"
+    temperature: temp
+    humidity: hum
+  - platform: template
+    name: "Dew Point"
+    lambda: |-
+      return (243.5*(log(id(hum).state/100)+((17.67*id(temp).state)/
+      (243.5+id(temp).state)))/(17.67-log(id(hum).state/100)-
+      ((17.67*id(temp).state)/(243.5+id(temp).state))));
+    unit_of_measurement: °C
+    icon: 'mdi:thermometer-alert'
