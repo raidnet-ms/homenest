@@ -5,7 +5,7 @@ substitutions:
 
 packages:
 #  aqi: github://raidnet-ms/homenest/common/sensor/aqi.yaml
-  base: !include ../common/device_base.yaml
+  base: !include ../../common/device_base.yaml
 
 i2c: # used by ccs811 and sht3xd
   sda: D2
