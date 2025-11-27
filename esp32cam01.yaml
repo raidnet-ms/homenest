@@ -1,9 +1,7 @@
 substitutions:
   name: esp32cam
   friendly_name: Esp32 camera
-  project_name: raidnet.esp32cam
-  project_version: 1.0.0
-  comment: comment
+
 
   log_level: debug
   disable_entities:  'true' # Disabilitare in blocco entità superflue
@@ -12,41 +10,46 @@ substitutions:
   api_key: !secret api_key
   ota_password: !secret ota_password
 
+
 packages:
 # Common Remote Packages
   base: github://raidnet-ms/homenest/common/device_base.yaml@main
-  chip: github://raidnet-ms/homenest/common/board/common-32.yaml@main
-  board: github://raidnet-ms/homenest/common/board/esp-wrover-kit.yaml
+  chip: github://raidnet-ms/homenest/common/board/common-32-idf.yaml@main
+  board: github://raidnet-ms/homenest/common/board/esp32cam-aithinker.yaml
   diagnostic: github://raidnet-ms/homenest/common/diagnostic.yaml@main
 
 
 
 ##############################################################
-  
-esp32_camera:
-  external_clock:
-    pin: GPIO0
-    frequency: 20MHz
-  i2c_pins:
-    sda: GPIO26
-    scl: GPIO27
-  data_pins: [GPIO5, GPIO18, GPIO19, GPIO21, GPIO36, GPIO39, GPIO34, GPIO35]
-  vsync_pin: GPIO25
-  href_pin: GPIO23
-  pixel_clock_pin: GPIO22
-  power_down_pin: GPIO32
+#esp32:
+#  framework:
+#    type: esp-idf
+#    sdkconfig_options:
+#      CONFIG_ESP32_BROWNOUT_DET: "n"
 
-# Image settings
-  name: My Camera
+psram:
+  mode: quad
+  speed: 40MHz
 
-# Flashlight
-output:
-  - platform: gpio
-    pin: GPIO4
-    id: gpio_4
 
-## GPIO_4 is the flash light pin
-light:
-  - platform: binary
-    output: gpio_4
-    name: flashlight
+#i2c:
+#  - id: camera_i2c
+#    sda: GPIO26
+#    scl: GPIO27
+
+#esp32_camera:
+#  external_clock:
+#    pin: GPIO0
+#    frequency: 10MHz
+#  i2c_id: camera_i2c
+#  data_pins: [GPIO5, GPIO18, GPIO19, GPIO21, GPIO36, GPIO39, GPIO34, GPIO35]
+#  vsync_pin: GPIO25
+#  href_pin: GPIO23
+#  pixel_clock_pin: GPIO22
+#  power_down_pin: GPIO32
+
+
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time

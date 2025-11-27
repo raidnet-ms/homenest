@@ -1,6 +1,6 @@
 ---
 esp32:
-  board: "${board}"
+  board: ${board}
 #  variant: $variant # non necessario se la board è conosciuta es. wemos etc
   framework:
     type: esp-idf
