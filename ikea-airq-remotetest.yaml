@@ -14,4 +14,4 @@ packages:
 
 
 # Device Remote Packages
-  device: github://raidnet-ms/homenest/device/ikea-aq_test/manifest.yaml@main
+  device: github://raidnet-ms/homenest/device/ikea_aq_test/manifest.yaml@main

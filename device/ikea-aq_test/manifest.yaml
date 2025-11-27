@@ -26,4 +26,4 @@ packages:
 
 # Device Packages
 #  aqi: !include ../../common/sensor/aqi.yaml
-  device: !include ikea-aq_test.yaml
+  device: !include ikea_aq_test.yaml
