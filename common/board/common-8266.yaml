@@ -7,6 +7,6 @@ esp8266:
 #  early_pin_init: false # Recommended value is false where switches are involved, as these will toggle when updating the firmware or when restarting the device. Defaults to true.
 
 
-#packages:
-#  device_base: !include ../device_base.yaml
+packages:
+  device_base: !include ../device_base.yaml
 #  base: github://raidnet-ms/homenest/common/device_base.yaml@main
