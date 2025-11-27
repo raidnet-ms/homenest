@@ -11,13 +11,12 @@ substitutions:
   ota_password: !secret ota_password
 
 
-packages:
+remote_packages:
 # Common Remote Packages
   base: github://raidnet-ms/homenest/common/device_base.yaml@main
   chip: github://raidnet-ms/homenest/common/board/common-32-idf.yaml@main
-  board: github://raidnet-ms/homenest/device/esp32cam_aithinker.yaml
   diagnostic: github://raidnet-ms/homenest/common/diagnostic.yaml@main
-
+  board: github://raidnet-ms/homenest/device/esp32cam_aithinker.yaml
 
 
 ##############################################################
