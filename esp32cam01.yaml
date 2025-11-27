@@ -15,7 +15,7 @@ packages:
 # Common Remote Packages
   base: github://raidnet-ms/homenest/common/device_base.yaml@main
   chip: github://raidnet-ms/homenest/common/board/common-32-idf.yaml@main
-  board: github://raidnet-ms/homenest/common/board/esp32cam-aithinker.yaml
+  board: github://raidnet-ms/homenest/common/device/esp32cam-aithinker.yaml
   diagnostic: github://raidnet-ms/homenest/common/diagnostic.yaml@main
 
 
