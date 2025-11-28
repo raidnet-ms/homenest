@@ -22,4 +22,4 @@ packages:
 
 # Device Remote Packages
   device: github://raidnet-ms/homenest/device/ikea_aq_hack/ikea_aq.yaml@main
-  aqi: github://raidnet-ms/homenest/common/sensor/aqi.yaml@main
+#  aqi: github://raidnet-ms/homenest/common/sensor/aqi.yaml@main
