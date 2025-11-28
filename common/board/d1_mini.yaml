@@ -8,6 +8,5 @@ substitutions:
 #  scan: true
 #  frequency: 100kHz
 
-#packages:
-#  chip: !include common-8266.yaml
-#  chip: github://raidnet-ms/homenest/common/board/common-8266.yaml@main
+packages:
+  platform: !include common-8266.yaml

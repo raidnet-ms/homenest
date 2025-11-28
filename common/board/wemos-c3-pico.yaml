@@ -1,6 +1,6 @@
 substitutions:
 #  board: esp32-c3-devkitm-1
-  board: lolin_c3_mini
+#  board: lolin_c3_mini # deprecato dichiarare la board
   variant: esp32c3
   light_pin: GPIO7
   improv_led: GPIO7
