@@ -21,7 +21,7 @@ packages:
 # Common Remote Packages
 #  base: github://raidnet-ms/homenest/common/board/common-base.yaml@main
 #  platform: github://raidnet-ms/homenest/common/board/common-8266.yaml@main
-  board: github://raidnet-ms/homenest/common/board/d1_mini.yaml
+  board: github://raidnet-ms/homenest/common/board/d1_mini.yaml@main
   diagnostic: github://raidnet-ms/homenest/common/diagnostic.yaml@main
 
 # Device Packages
