@@ -9,4 +9,4 @@ substitutions:
 #  frequency: 100kHz
 
 packages:
-  base: !include common-8266.yaml
+  platform: !include common-8266.yaml
