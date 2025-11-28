@@ -1,5 +1,5 @@
 substitutions:
-  name: ikea-airq
+  name: ikeatest
   friendly_name: Ikea air quality
 
 
@@ -13,4 +13,4 @@ substitutions:
 remote_packages:
 # Device Remote Packages
 #  common: github://raidnet-ms/homenest/common/board/d1_mini.yaml@main
-  device: github://raidnet-ms/homenest/device/ikea_aq_test/manifest.yaml@main
+  device: github://raidnet-ms/homenest/device/ikeatest/manifest.yaml@main
