@@ -6,7 +6,6 @@ substitutions: # Add substitutions to local config and secret variable in secret
 
 # Common packages
 packages:
-#  diagnostic: github://raidnet-ms/homenest/common/diagnostic.yaml@main
   diagnostic: !include ../diagnostic.yaml
 
 esphome:
