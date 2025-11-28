@@ -10,8 +10,7 @@ substitutions:
   ota_password: !secret ota_password
 
 
-packages:
-
-
+remote_packages:
 # Device Remote Packages
+  common: github://raidnet-ms/homenest/common/common-base.yaml@main
   device: github://raidnet-ms/homenest/device/ikea_aq_test/manifest.yaml@main
