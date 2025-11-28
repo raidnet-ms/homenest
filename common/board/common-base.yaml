@@ -4,9 +4,6 @@ substitutions: # Add substitutions to local config and secret variable in secret
   ap_password: "12345678"
   api_key: "wZJ5F6zY7T9w6Bz9yM7k6Jj8dQ5sP2B4nZrC5qX8kYc=" #default value, you should set a custom value when importing a device.
 
-# Common packages
-packages:
-  diagnostic: !include ../diagnostic.yaml
 
 esphome:
   name: ${name}
@@ -46,3 +43,7 @@ api:
 ota: # //todo con dasboard import dovrebbe essere in teoria vuoto
   - platform: esphome
     password: $ota_password
+
+# Common packages
+packages:
+  diagnostic: !include ../diagnostic.yaml
