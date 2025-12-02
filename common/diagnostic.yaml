@@ -1,6 +1,6 @@
 binary_sensor:
   - platform: status
-    name: "Stato"
+    name: "Connection status"
     id: connection_status
     entity_category: diagnostic
 
