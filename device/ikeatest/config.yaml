@@ -2,7 +2,7 @@ substitutions: # Add substitutions to local config and secret variable in secret
   name: "IkeaAq"
   friendly_name: "Ikea AQI"
   log_level: debug
-  disable_entities:  'true' # Disabilitare in blocco entità superflue
+  disable_entities:  true # Disabilitare in blocco entità superflue
   wifi_ssid: "defaultssid"
   wifi_password: "defaultpassword"
   ap_password: "12345678"

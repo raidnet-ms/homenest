@@ -3,7 +3,7 @@ substitutions:
   friendly_name: Ikea air quality
 
 
-  disable_entities:  'true' # Disabilitare in blocco entità superflue
+  disable_entities:  true # Disabilitare in blocco entità superflue
   wifi_ssid: !secret wifi_ssid
   wifi_password: !secret wifi_password
   api_key: !secret api_key
@@ -15,12 +15,10 @@ remote_package:
 #  core: github://raidnet-ms/homenest/common/board/d1_mini.yaml@main
 #  core: github://raidnet-ms/homenest/common/board/common-base.yaml@main
 #  device: github://raidnet-ms/homenest/device/ikeatest/manifest.yaml@main
+  core: github://raidnet-ms/homenest/common/board/common-base.yaml@main
   url: github://raidnet-ms/homenest/device/ikeatest/
   ref: main
   refresh: 1m
   files:
     - device/irrigatore/*
     - device/irrigatore/config.yaml
-
-remote_package:
-  core: github://raidnet-ms/homenest/common/board/common-base.yaml@main
