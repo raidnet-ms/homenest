@@ -1,0 +1,19 @@
+substitutions: # Add substitutions to local config and secret variable in secrets.yaml. So these values will be overwritten by your configuration.
+  name: "IkeaAq"
+  friendly_name: "Ikea AQI"
+  log_level: debug
+  disable_entities:  'true' # Disabilitare in blocco entità superflue
+  wifi_ssid: "defaultssid"
+  wifi_password: "defaultpassword"
+  ap_password: "12345678"
+  api_key: "wZJ5F6zY7T9w6Bz9yM7k6Jj8dQ5sP2B4nZrC5qX8kYc=" #default value, you should set a custom value when importing a device.
+
+
+## Hardware config
+
+# GPIO Pinout
+
+# Package
+
+packages:
+  manifest: !include manifest.yaml

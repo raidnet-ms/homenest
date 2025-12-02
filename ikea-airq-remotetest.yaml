@@ -10,8 +10,17 @@ substitutions:
   ota_password: !secret ota_password
 
 
-remote_packages:
+remote_package:
 # Device Remote Packages
 #  core: github://raidnet-ms/homenest/common/board/d1_mini.yaml@main
+#  core: github://raidnet-ms/homenest/common/board/common-base.yaml@main
+#  device: github://raidnet-ms/homenest/device/ikeatest/manifest.yaml@main
+  url: github://raidnet-ms/homenest/device/ikeatest/
+  ref: main
+  refresh: 1m
+  files:
+    - device/irrigatore/*
+    - device/irrigatore/config.yaml
+
+remote_package:
   core: github://raidnet-ms/homenest/common/board/common-base.yaml@main
-  device: github://raidnet-ms/homenest/device/ikeatest/manifest.yaml@main
