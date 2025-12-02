@@ -12,5 +12,6 @@ substitutions:
 
 remote_packages:
 # Device Remote Packages
-  core: github://raidnet-ms/homenest/common/board/d1_mini.yaml@main
+#  core: github://raidnet-ms/homenest/common/board/d1_mini.yaml@main
+  core: github://raidnet-ms/homenest/common/board/common-base.yaml@main
   device: github://raidnet-ms/homenest/device/ikeatest/manifest.yaml@main
