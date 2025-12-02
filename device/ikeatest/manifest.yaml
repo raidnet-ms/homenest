@@ -13,7 +13,7 @@ substitutions:
 
 packages:
 # Common Packages
-  base: !include ../../common/common-base.yaml
+#  base: !include ../../common/common-base.yaml
   board: !include ../../common/d1_mini.yaml
 #  platform: !include ../../common/board/common-8266.yaml
 #  board: !include ../../common/board/d1_mini.yaml
