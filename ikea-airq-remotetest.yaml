@@ -8,6 +8,7 @@ substitutions:
   wifi_password: !secret wifi_password
   api_key: !secret api_key
   ota_password: !secret ota_password
+# aggiungere mac address per dashboard import
 
 
 remote_package:
@@ -15,10 +16,12 @@ remote_package:
 #  core: github://raidnet-ms/homenest/common/board/d1_mini.yaml@main
 #  core: github://raidnet-ms/homenest/common/board/common-base.yaml@main
 #  device: github://raidnet-ms/homenest/device/ikeatest/manifest.yaml@main
-  core: github://raidnet-ms/homenest/common/board/common-base.yaml@main
+  core: github://raidnet-ms/homenest/common/base/devicebase.yaml@main
   url: github://raidnet-ms/homenest/device/ikeatest/
-  ref: main
-  refresh: 1m
-  files:
-    - device/irrigatore/*
-    - device/irrigatore/config.yaml
+    ref: main
+    refresh: 0d
+    files:
+      - device/ikeatest/*
+      - device/ikeatest/config.yaml
+
+# dashboard import (inserire eventualmente)
