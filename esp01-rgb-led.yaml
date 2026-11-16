@@ -18,7 +18,7 @@ packages:
 # Common Remote Packages
   base: github://raidnet-ms/homenest/common/device_base.yaml@main
 #  chip: github://raidnet-ms/homenest/common/board/common-8266.yaml@main
-  board: github://raidnet-ms/homenest/common/board/esp01s.yaml
+#  board: github://raidnet-ms/homenest/common/board/esp01s.yaml
 #  diagnostic: github://raidnet-ms/homenest/common/diagnostic.yaml@main
 
 
