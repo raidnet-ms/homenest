@@ -45,5 +45,5 @@ ota: # //todo con dasboard import dovrebbe essere in teoria vuoto
     password: $ota_password
 
 # Common packages
-packages:
-  diagnostic: !include ../features/diagnostic.yaml
+#packages:
+#  diagnostic: !include ../features/diagnostic.yaml
