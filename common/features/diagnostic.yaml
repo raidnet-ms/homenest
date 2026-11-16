@@ -1,32 +1,51 @@
-binary_sensor:
-  - platform: status
-    name: "Connection status"
-    id: connection_status
-    entity_category: diagnostic
+# Feature opzionale: Monitoring e diagnostica
+# 
+# Fornisce:
+#   - Sensori di sistema (uptime, WiFi signal)
+#   - Info di rete (IP, SSID)
+#   - Versione ESPHome
+#   - Utility buttons (restart, safe mode)
+#
+# Substitutions opzionali:
+#   disable_entities: 'true/false' - Disabilita entità di default (default: false)
+
+
+#binary_sensor:
+#  - platform: status
+#    name: "Connection status"
+#    id: connection_status
+#    entity_category: diagnostic
 
 text_sensor:
 # //todo  - <<: !include wifi_signal_bars.yaml  # creare sensore copy invece che text
+text_sensor:
   - platform: wifi_info
+    # Info essenziali (sempre utili)
     ip_address:
       name: "IP Address"
-      disabled_by_default: $disable_entities
       entity_category: diagnostic
+      disabled_by_default: ${disable_entities}
+    
     ssid:
-      name: Connected SSID
-      disabled_by_default: $disable_entities
+      name: "Connected SSID"
       entity_category: diagnostic
+      disabled_by_default: ${disable_entities}
+    
+    # Info avanzate (solo per troubleshooting)
     bssid:
-      name: Connected BSSID
-      disabled_by_default: $disable_entities
+      name: "Connected BSSID"
       entity_category: diagnostic
+      disabled_by_default: true  # Sempre nascosto di default
+    
     mac_address:
-      name: Mac Wifi Address
-      disabled_by_default: $disable_entities
+      name: "MAC Address"
       entity_category: diagnostic
+      disabled_by_default: true  # Sempre nascosto (non cambia mai)
+    
     scan_results:
-      name: Latest Scan Results
-      disabled_by_default: $disable_entities
+      name: "WiFi Scan Results"
       entity_category: diagnostic
+      disabled_by_default: true  # Pesante, solo per debug
 
 button:
   - platform: restart

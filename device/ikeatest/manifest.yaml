@@ -26,4 +26,4 @@ packages:
   aqi: !include ../../common/sensor/aqi.yaml
   device: !include ikeatest.yaml
 
-  platform: !include ../../common/board/common-8266.yaml
+  platform: !include ../../common/board/esp8266.yaml

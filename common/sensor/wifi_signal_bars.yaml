@@ -35,3 +35,19 @@
 #          return (std::string) "0";
 #        }
 #    unit_of_measurement: "Bars"
+
+  # WiFi signal in "tacche" (come cellulare)
+  - platform: copy
+    source_id: wifi_signal_percent
+    name: "WiFi Signal Bars"
+    id: wifi_signal_bars
+    filters:
+      - lambda: |-
+          int percent = (int)x;
+          if (percent >= 80) return {"▂▄▆█"};  // 4 bars
+          if (percent >= 60) return {"▂▄▆_"};  // 3 bars
+          if (percent >= 40) return {"▂▄__"};  // 2 bars
+          if (percent >= 20) return {"▂___"};  // 1 bar
+          return {"____"};                      // No signal
+    entity_category: diagnostic
+    disabled_by_default: ${disable_entities}

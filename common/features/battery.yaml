@@ -1,0 +1,12 @@
+# battery charge logic, battery monitor
+
+
+button:
+  
+  - platform: shutdown  # Oer spegnere un device a batteria
+    name: "Spegni"
+    entity_category: diagnostic
+    disabled_by_default: true  # Sempre nascosto (pericoloso)
+    # Opzionale: aggiungi conferma
+    on_press:
+      - logger.log: "Shutdown initiated!"

@@ -46,4 +46,4 @@ ota: # //todo con dasboard import dovrebbe essere in teoria vuoto
 
 # Common packages
 packages:
-  diagnostic: !include ../diagnostic.yaml
+  diagnostic: !include ../features/diagnostic.yaml
